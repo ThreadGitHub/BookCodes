@@ -1,0 +1,10 @@
+server:
+  port: 81
+spring:
+  application:
+    name: eurekaclient-thread
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123@eureka-server:8671/eureka, http://admin:123@eureka-server2:8672/eureka, http://admin:123@eureka-server3:8673/eureka
