@@ -1,0 +1,19 @@
+server:
+  port: 880
+
+#配置EurekaServer
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8671/eureka
+  instance:
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: thread-eureka-client  #配置微服务应用名称
+  #配置是否服务自动注册
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: true
