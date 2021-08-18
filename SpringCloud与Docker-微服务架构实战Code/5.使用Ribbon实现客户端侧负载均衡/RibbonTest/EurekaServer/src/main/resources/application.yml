@@ -1,0 +1,16 @@
+#设置服务访问端口
+server:
+  port: 777
+
+#设置服务名称
+spring:
+  application:
+    name: eureka-server
+
+#配置EurekaServer
+eureka:
+  client:
+    fetch-registry: false #设置不从其他server拉取注册信息
+    register-with-eureka: false #设置不把server注册到其他eureka
+    service-url:
+      defaultZone: http://localhost:777/eureka  #当前server的注册地址

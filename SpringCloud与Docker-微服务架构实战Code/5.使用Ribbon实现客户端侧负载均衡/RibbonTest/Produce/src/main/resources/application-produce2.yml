@@ -1,0 +1,9 @@
+#配置访问端口
+server:
+  port: 8082
+
+users:
+  data:
+    - xiaochu
+    - xiaohe
+    - xiaocangshu
