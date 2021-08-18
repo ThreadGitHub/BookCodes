@@ -42,7 +42,7 @@ public List<String> hello(){
 }
 ```
 
-#### 4. 通过 LoadBalancerClient.choose来获取负载均衡后用的是哪个实例
+#### 4. 通过 LoadBalancerClient.choose()来获取负载均衡后用的是哪个实例
 
 ```java
 @Autowired
