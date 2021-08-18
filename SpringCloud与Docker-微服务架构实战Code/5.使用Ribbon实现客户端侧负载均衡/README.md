@@ -1,8 +1,8 @@
-## 5.使用Ribbon实现客户端侧负载均衡
+## 5. 使用Ribbon实现客户端侧负载均衡
 
-### 5.2为服务消费者整合Ribbon - (使用默认的Ribbon负载均衡)
+### 5.2 为服务消费者整合Ribbon - (使用默认的Ribbon负载均衡)
 
-#### 1.导入Ribbon启动器(如果导入了Eureka Client 那么默认包含Ribbon不用导入)
+#### 1. 导入Ribbon启动器(如果导入了Eureka Client 那么默认包含Ribbon不用导入)
 
 ```xml
 <dependency>
@@ -12,7 +12,7 @@
 </dependency>
 ```
 
-#### 2.配置RestTemplate 增加 @LoadBalanced
+#### 2. 配置RestTemplate 增加 @LoadBalanced
 
 ```java
 @Bean
@@ -22,7 +22,7 @@ public RestTemplate restTemplate(){
 }
 ```
 
-#### 3.RestTemplate使用虚拟主机名访问微服务
+#### 3. RestTemplate使用虚拟主机名访问微服务
 
 ```java
 @Autowired
@@ -41,3 +41,23 @@ public List<String> hello(){
     return userNames;
 }
 ```
+
+#### 4. 通过 LoadBalancerClient.choose来获取负载均衡后用的是哪个实例
+
+```java
+@Autowired
+private LoadBalancerClient loadBalancerClient;
+
+/**
+  * 获取分配的 生产者实例
+  * @return
+  */
+@RequestMapping("/getProduce")
+public String getProduce(){
+    ServiceInstance choose = this.loadBalancerClient.choose("thread-produce");
+    logger.info("{}",choose.getInstanceId());
+    String str = "thread-produce \t" + choose.getUri();
+    return str;
+}
+```
+
