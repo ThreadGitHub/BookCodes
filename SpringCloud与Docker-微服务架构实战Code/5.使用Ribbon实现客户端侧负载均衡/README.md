@@ -22,7 +22,7 @@ public RestTemplate restTemplate(){
 }
 ```
 
-#### 3. RestTemplate使用虚拟主机名访问微服务
+#### 3. RestTemplate使用虚拟主机名访问微服务	
 
 ```java
 @Autowired
