@@ -16,3 +16,15 @@ eureka:
       defaultZone: http://localhost:777/eureka #注册到这个地址的eureka
   instance:
     prefer-ip-address: true #把client的ip注册到eureka 默认是主机名
+
+#配置 Ribbon 访问策略
+# -- 配置全局默认的策略
+ribbon:
+  #配置 负载均衡 分配策略
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+# -- 单个服务配置策略
+thread-produce:
+  ribbon:
+    #配置 负载均衡 分配策略
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule

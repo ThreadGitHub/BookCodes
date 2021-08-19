@@ -9,6 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
+//配置默认的Ribbon 配置策略
+//@RibbonClients(defaultConfiguration = DefaultRibbonConfig.class)
+//让配置的Ribbon 自定义配置生效
+//@RibbonClient(name="thread-produce", configuration = RibbonConfiguration.class)
 public class ConsumerApplication {
     @Bean
     @LoadBalanced  //在RestTemplate bean这里开启 Ribbon 负载均衡
