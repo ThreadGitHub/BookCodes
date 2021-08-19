@@ -44,12 +44,6 @@ SpringCloud Eureka Server 2.2.4.RELEASE
 
 ## 5.2 为服务消费者整合Ribbon - (使用默认的Ribbon负载均衡)
 
-> 这部分内容的代码在 RibbonTest 的位置：
->
-> /Consumer/src/main/java/thread/consumer/controller/HelloController.java
->
-> /Consumer/src/main/java/thread/consumer/ConsumerApplication.java
-
 ### 1. 导入Ribbon启动器(如果导入了Eureka Client 那么默认包含Ribbon不用导入)
 
 ```xml
@@ -216,13 +210,13 @@ public class DefaultRibbonConfig {
 
 #### Ribbon提供的配置属性
 
-| 属性名                            | 属性值                              |
-| --------------------------------- | ----------------------------------- |
-| **NFLoadBalancerClassName**       | 配置：**ILoadBalancer的实现类**     |
-| **NFLoadBalancerRuleClassName**   | 配置：**IRule的实现类**             |
-| **NFLoadBalancerPingClassName**   | 配置：**IPing的实现类**             |
-| **NIWSServerListClassName**       | 配置：**ServerList的实现类**        |
-| **NIWSServerListFilterClassName** | 配置：**ServerListFilter的实现类**= |
+| 属性名                            | 属性值                             |
+| --------------------------------- | ---------------------------------- |
+| **NFLoadBalancerClassName**       | 配置：**ILoadBalancer的实现类**    |
+| **NFLoadBalancerRuleClassName**   | 配置：**IRule的实现类**            |
+| **NFLoadBalancerPingClassName**   | 配置：**IPing的实现类**            |
+| **NIWSServerListClassName**       | 配置：**ServerList的实现类**       |
+| **NIWSServerListFilterClassName** | 配置：**ServerListFilter的实现类** |
 
 #### 配置文件格式：
 
