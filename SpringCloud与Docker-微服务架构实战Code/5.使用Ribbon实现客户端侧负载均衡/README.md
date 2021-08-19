@@ -2,6 +2,8 @@
 
 ## 环境版本 - SpringCloud Hoxton.** 和 SpringBoot 2.** 兼容版本
 
+> 注意：SpringCloud 和 SpringBoot请到Spring官网查看版本对应关系 避免启动时一些依赖问题的错误，如果不想找可以按我这个导入依赖。
+
 ```xml
 SpringBoot依赖 2.2.7.RELEASE
 <dependency>
@@ -223,7 +225,7 @@ public class DefaultRibbonConfig {
 - **单个服务的配置 :  服务名.ribbon.[属性名] = [属性值]**
 - **全局服务的配置： ribbon.[属性名] = [属性值]**
 
-```java
+```yaml
 #配置 Ribbon 访问策略
 # -- 配置全局默认的策略
 ribbon:
