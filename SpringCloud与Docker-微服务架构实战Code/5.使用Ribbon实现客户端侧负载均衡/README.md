@@ -119,7 +119,7 @@ public String getProduce(){
 
 ## 5.3 Ribbon配置自定义
 
-### 配置分类：
+### 配置分类
 
 - **配置负载均衡分配方式：** 		配置 IRule 接口 的不同实现类
 - **配置检测服务节点存活方式：** 配置 IPing 接口的不同实现类
@@ -232,7 +232,7 @@ public class DefaultRibbonConfig {
 | **NIWSServerListClassName**       | 配置：**ServerList的实现类**       |
 | **NIWSServerListFilterClassName** | 配置：**ServerListFilter的实现类** |
 
-#### 配置文件格式：
+#### 配置文件格式
 
 - **单个服务的配置 :  服务名.ribbon.[属性名] = [属性值]**
 - **全局服务的配置： ribbon.[属性名] = [属性值]**
@@ -249,5 +249,22 @@ thread-produce:
     #配置 负载均衡 分配策略
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule
+```
+
+#### 开启饥饿加载模式，提升第一次访问的速度
+
+> 节点初始化提示信息：
+>
+> 2021-08-19 23:29:18.200  INFO 15956 --- [           main] c.n.l.DynamicServerListLoadBalancer      : DynamicServerListLoadBalancer for client thread-produce initialized: DynamicServerListLoadBalancer:{NFLoadBalancer:name=thread-produce,current list of Servers=[192.168.126.1:8081, 192.168.126.1:8082],Load balancer stats=Zone stats: {defaultzone=[Zone:defaultzone;	Instance count:2;	Active connections count: 0;	Circuit breaker tripped count: 0;	Active connections per server: 0.0;]
+> },Server stats: [[Server:192.168.126.1:8082;	Zone:defaultZone;	Total Requests:0;	Successive connection failure:0;	Total blackout seconds:0;	Last connection made:Thu Jan 01 08:00:00 CST 1970;	First connection made: Thu Jan 01 08:00:00 CST 1970;	Active Connections:0;	total failure count in last (1000) msecs:0;	average resp time:0.0;	90 percentile resp time:0.0;	95 percentile resp time:0.0;	min resp time:0.0;	max resp time:0.0;	stddev resp time:0.0]
+> , [Server:192.168.126.1:8081;	Zone:defaultZone;	Total Requests:0;	Successive connection failure:0;	Total blackout seconds:0;	Last connection made:Thu Jan 01 08:00:00 CST 1970;	First connection made: Thu Jan 01 08:00:00 CST 1970;	Active Connections:0;	total failure count in last (1000) msecs:0;	average resp time:0.0;	90 percentile resp time:0.0;	95 percentile resp time:0.0;	min resp time:0.0;	max resp time:0.0;	stddev resp time:0.0]
+> ]}ServerList:org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList@1278c48f
+
+```yaml
+ribbon:
+  #配置饥饿加载 在启动时候就全部把client加载好，默认是第一次请求的时候去创建
+  eager-load:
+    enabled: true
+    clients: thread-produce
 ```
 

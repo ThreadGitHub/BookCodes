@@ -20,6 +20,11 @@ eureka:
 #配置 Ribbon 访问策略
 # -- 配置全局默认的策略
 ribbon:
+  #配置饥饿加载 在启动时候就全部把client加载好，默认是第一次请求的时候去创建
+  eager-load:
+    enabled: false
+    clients: thread-produce
+
   #配置 负载均衡 分配策略
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 # -- 单个服务配置策略
