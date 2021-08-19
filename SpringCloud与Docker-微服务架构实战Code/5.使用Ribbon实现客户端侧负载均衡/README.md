@@ -56,13 +56,25 @@ SpringCloud Eureka Server 2.2.4.RELEASE
 </dependency>
 ```
 
-### 2. 配置RestTemplate 增加 @LoadBalanced
+### 2.启动类上配置 启用@EnableDiscoveryClient，和配置RestTemplateBean增加@LoadBalanced
 
 ```java
-@Bean
-@LoadBalanced  //在RestTemplate bean这里开启 Ribbon 负载均衡
-public RestTemplate restTemplate(){
-    return new RestTemplate();
+@SpringBootApplication
+@EnableEurekaClient
+//配置默认的Ribbon 配置策略
+//@RibbonClients(defaultConfiguration = DefaultRibbonConfig.class)
+//让配置的Ribbon 自定义配置生效
+//@RibbonClient(name="thread-produce", configuration = RibbonConfiguration.class)
+public class ConsumerApplication {
+    @Bean
+    @LoadBalanced  //在RestTemplate bean这里开启 Ribbon 负载均衡
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class,args);
+    }
 }
 ```
 
