@@ -1,0 +1,17 @@
+#eureka客户端服务名
+spring:
+  application:
+    name: thread-produce
+  profiles:
+    active: produce
+
+#设置Eureka客户端配置
+eureka:
+  client:
+    register-with-eureka: true #从server获取注册的服务信息
+    fetch-registry: true #注册到eureka服务器
+    service-url:
+      defaultZone: http://localhost:777/eureka #注册到这个地址的eureka
+  instance:
+    prefer-ip-address: true #把client的ip注册到eureka 默认是主机名
+    hostname: thread-produce
