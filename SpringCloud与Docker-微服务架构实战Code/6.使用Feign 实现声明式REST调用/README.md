@@ -90,13 +90,13 @@ public class HelloController {
 
 ## 6.3 自定义Feign 配置
 
-### 使用Java配置类形式
-
 ### Feign 可以配置的选项
 
 #### 目前书中介绍到的配置
 
 - 配置 Contract Bean的实现类  取值：SpringMvcContract 采用SpringMVC契约注解  Contract.Default 启用默认的Feign提供的契约注解
+
+### 使用Java配置类形式
 
 #### 声明 Feign的配置类
 
