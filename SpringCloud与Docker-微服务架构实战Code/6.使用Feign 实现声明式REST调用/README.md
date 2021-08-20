@@ -1,5 +1,7 @@
 #  6.使用Feign实现声明式REST调用
 
+![FeignRest调用 (1)](D:\GitHubRepository\BookCodes\SpringCloud与Docker-微服务架构实战Code\6.使用Feign 实现声明式REST调用\README.assets\FeignRest调用 (1).png)
+
 ## 使用RestTemplate服务之间的REST调用方式缺点
 
 > 拼接url的方式对于简单的还可以，但是现实中对于多参数url复杂那么就会变得难以维护和复杂化，例如下面书中给到写法：
