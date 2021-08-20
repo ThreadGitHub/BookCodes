@@ -1,6 +1,6 @@
 #  6.使用Feign实现声明式REST调用
 
-![FeignRest调用 (1)](D:\GitHubRepository\BookCodes\SpringCloud与Docker-微服务架构实战Code\6.使用Feign 实现声明式REST调用\README.assets\FeignRest调用 (1).png)
+![FeignRest调用](D:\GitHubRepository\BookCodes\SpringCloud与Docker-微服务架构实战Code\6.使用Feign 实现声明式REST调用\README.assets\FeignRest调用.png)
 
 ## 使用RestTemplate服务之间的REST调用方式缺点
 
