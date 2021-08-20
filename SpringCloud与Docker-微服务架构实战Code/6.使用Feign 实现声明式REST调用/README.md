@@ -88,3 +88,55 @@ public class HelloController {
 }
 ```
 
+## 6.3 自定义Feign 配置
+
+### 使用Java配置类形式
+
+### Feign 可以配置的选项
+
+#### 目前书中介绍到的配置
+
+- 配置 Contract Bean的实现类  取值：SpringMvcContract 采用SpringMVC契约注解  Contract.Default 启用默认的Feign提供的契约注解
+
+#### 声明 Feign的配置类
+
+> 配置类的@Configuration注解加和不加  取决于不要被SpringBoot默认@ComponentScan注解扫描到
+>
+> 如果加了注解被扫描到后，Feign所有的Client都会共享这个设置，就达不到我们为单个client加配置的目的了
+
+```java
+/**
+ * 这里不能加@configuration注解, 因为这个注解加了以后会被主程序的 @ComponentScan扫描到
+ * 扫描到后的话 会被 全部的 FeignClient共享这个设置
+ */
+//@Configuration
+public class FeignConfiguration {
+    /**
+     * Feign 默认的契约是 Spring MVC的注解  用的是 SpringMvcContract 所以 FeignClient 可以使用mvc注解来去定义
+     * Contract.Default() 改成了 Feign默认的契约 所以这里配置了以后就要修改FeignClient的注解
+     * @return
+     */
+    @Bean
+    public Contract feignContract(){
+        return new Contract.Default();
+//        SpringMvcContract
+    }
+}
+```
+
+#### 在 FeignCleint 中使用 Feign 配置类
+
+```java
+import feign.RequestLine;
+import org.springframework.cloud.openfeign.FeignClient;
+import java.util.List;
+
+@FeignClient(name = "thread-produce", configuration = FeignConfiguration.class)
+public interface UserConfigurationClient {
+    @RequestLine("GET /getUserNames")
+    public List<String> getUserNames();
+}
+```
+
+### 使用SpringBoot配置文件形式
+
