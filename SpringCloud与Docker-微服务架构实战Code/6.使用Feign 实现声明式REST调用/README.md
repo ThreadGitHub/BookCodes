@@ -133,8 +133,24 @@ import java.util.List;
 
 @FeignClient(name = "thread-produce", configuration = FeignConfiguration.class)
 public interface UserConfigurationClient {
+     /**
+     * Feign默认支持的 契约配置形式
+     * @return
+     */
     @RequestLine("GET /getUserNames")
     public List<String> getUserNames();
+}
+```
+
+#### 启用全局默认的配置
+
+```java
+//开启全局的Feign配置
+@EnableFeignClients(defaultConfiguration = FeignConfiguration.class)    
+public class ConsumerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class,args);
+    }
 }
 ```
 
