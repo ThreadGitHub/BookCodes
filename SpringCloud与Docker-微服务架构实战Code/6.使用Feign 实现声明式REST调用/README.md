@@ -1,6 +1,6 @@
 #  6.使用Feign实现声明式REST调用
 
-![FeignRest调用](README.assets\FeignRest调用.png)
+![FeignRest调用](README.assets/FeignRest%E8%B0%83%E7%94%A8.png)
 
 ## 使用RestTemplate服务之间的REST调用方式缺点
 
