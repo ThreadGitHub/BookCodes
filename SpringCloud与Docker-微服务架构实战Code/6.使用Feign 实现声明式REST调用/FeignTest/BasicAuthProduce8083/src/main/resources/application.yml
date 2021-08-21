@@ -1,0 +1,17 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: basicAuth-produce
+
+#配置eureka客户端
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:777/eureka
+  instance:
+    hostname: basicAuth-produce
+    prefer-ip-address: true

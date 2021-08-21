@@ -10,8 +10,8 @@ import thread.consumer.feign.FeignConfiguration;
 
 @SpringBootApplication
 @EnableEurekaClient
-//@EnableFeignClients //开启Feign全部的Client
-@EnableFeignClients(defaultConfiguration = FeignConfiguration.class)    //开启全局的Feign配置
+@EnableFeignClients //开启Feign全部的Client
+//@EnableFeignClients(defaultConfiguration = FeignConfiguration.class)    //开启全局的Feign配置
 public class ConsumerApplication {
     @Bean
     public RestTemplate restTemplate(){
