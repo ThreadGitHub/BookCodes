@@ -181,7 +181,7 @@ feign:
 
 默认的Feign只对Debug级别提供显示，所以修改日志级别为debug
 
-```yam
+```yaml
 logging:
   level:
   	#要打印日志的 FeignClient 的包路径
