@@ -2,6 +2,50 @@
 
 ![FeignRest调用](README.assets/FeignRest%E8%B0%83%E7%94%A8.png)
 
+## 环境版本 - SpringCloud Hoxton.** 和 SpringBoot 2.** 兼容版本
+
+> 注意：SpringCloud 和 SpringBoot请到Spring官网查看版本对应关系 避免启动时一些依赖问题的错误
+
+```xml
+<!--SpringBoot依赖 2.2.7.RELEASE-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.7.RELEASE</version>
+    <type>pom</type>
+</dependency>
+
+<!--SpringCloud依赖 Hoxton.SR7-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-dependencies</artifactId>
+    <version>Hoxton.SR7</version>
+    <type>pom</type>
+    <scope>runtime</scope>
+</dependency>
+
+<!--SpringCloud Eureka Client 2.2.4.RELEASE-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    <version>2.2.4.RELEASE</version>
+</dependency>
+
+<!--SpringCloud Eureka Server 2.2.4.RELEASE-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    <version>2.2.4.RELEASE</version>
+</dependency>
+
+<!--Feign 2.2.4.RELEASE-->
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-openfeign</artifactId>
+	<version>2.2.4.RELEASE</version>
+</dependency>
+```
+
 ## 使用RestTemplate服务之间的REST调用方式缺点
 
 > 拼接url的方式对于简单的还可以，但是现实中对于多参数url复杂那么就会变得难以维护和复杂化，例如下面书中给到写法：

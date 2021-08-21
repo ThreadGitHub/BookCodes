@@ -5,7 +5,7 @@
 > 注意：SpringCloud 和 SpringBoot请到Spring官网查看版本对应关系 避免启动时一些依赖问题的错误，如果不想找可以按我这个导入依赖。
 
 ```xml
-SpringBoot依赖 2.2.7.RELEASE
+<!--SpringBoot依赖 2.2.7.RELEASE-->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +13,7 @@ SpringBoot依赖 2.2.7.RELEASE
     <type>pom</type>
 </dependency>
 
-SpringCloud依赖 Hoxton.SR7
+<!--SpringCloud依赖 Hoxton.SR7-->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-dependencies</artifactId>
@@ -22,14 +22,14 @@ SpringCloud依赖 Hoxton.SR7
     <scope>runtime</scope>
 </dependency>
 
-SpringCloud Eureka Client 2.2.4.RELEASE
+<!--SpringCloud Eureka Client 2.2.4.RELEASE-->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     <version>2.2.4.RELEASE</version>
 </dependency>
 
-SpringCloud Eureka Server 2.2.4.RELEASE
+<!--SpringCloud Eureka Server 2.2.4.RELEASE-->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
