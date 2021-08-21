@@ -17,3 +17,17 @@ eureka:
   instance:
     prefer-ip-address: true #把client的ip注册到eureka 默认是主机名
 
+feign:
+  client:
+    config:
+      #为单独的 服务配置Feign配置
+      thread-produce:
+        loggerLevel: full #配置Feign日志 为full
+      #配置全局的Feign配置
+      default:
+        loggerLevel: BASIC
+
+logging:
+  level:
+    thread.consumer.feign: info
+

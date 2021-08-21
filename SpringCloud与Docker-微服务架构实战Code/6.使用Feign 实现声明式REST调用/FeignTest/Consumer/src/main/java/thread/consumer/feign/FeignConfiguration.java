@@ -1,6 +1,7 @@
 package thread.consumer.feign;
 
 import feign.Contract;
+import feign.Logger;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 
@@ -19,7 +20,21 @@ public class FeignConfiguration {
     @Bean
     public Contract feignContract(){
         return new Contract.Default();
-//        SpringMvcContract
+//      SpringMvcContract
+    }
+
+    /**
+     * 配置 Feign 的日志级别
+     * @return
+     */
+   /* @Bean
+    public Logger.Level level(){
+        return Logger.Level.FULL;
+    }*/
+
+    @Bean
+    public Logger logger(){
+        return new ThreadFeignLogger();
     }
 
 }

@@ -156,3 +156,127 @@ public class ConsumerApplication {
 
 ### 使用SpringBoot配置文件形式
 
+```yaml
+feign:
+  client:
+    config:
+      #为单独的服务配置Feign配置 (这里的名字是你的服务的名字)
+      thread-produce:
+        loggerLevel: full #配置Feign日志 为full
+      #配置全局的Feign配置
+      default:
+        loggerLevel: BASIC
+```
+
+### Feign的日志配置
+
+#### Feign的日志级别
+
+- NONE	无记录
+- BASIC  只记录请求方法，URL，响应状态代码，执行时间
+- HEADERS 记录基本信息，请求和响应标头
+- FULL 记录请求和响应的头文件，正文和元数据
+
+#### 开启Debug日志级别
+
+默认的Feign只对Debug级别提供显示，所以修改日志级别为debug
+
+```yam
+logging:
+  level:
+  	#要打印日志的 FeignClient 的包路径
+    thread.consumer.feign: debug
+```
+
+#### yaml配置Feign的日志显示的内容的级别
+
+```yaml
+feign:
+  client:
+    config:
+      #为单独的 服务配置Feign配置
+      thread-produce:
+        loggerLevel: full #配置Feign日志 为full
+      #配置全局的Feign配置
+      default:
+        loggerLevel: BASIC
+```
+
+#### java配置类配置，在feign配置类中加入Logger.level 配置
+
+```java
+/**
+ * 配置 Feign 的日志级别
+ * @return
+ */
+@Bean
+public Logger.Level level(){
+    return Logger.Level.FULL;
+}
+```
+
+#### 让Feign可以再INFO级别下显示
+
+**重写Feign的Logger的实现类方式，默认应该是用的feign.slf4j.Slf4jLogger这个类，比着这个实现一下把DEBUG处理改成INFO**
+
+```java
+/**
+ * 重写feign.Logger实现 用SpringBoot的自定义配置 大于 原本自动注入的原则 这里重写了实现 优先用这里 
+ * 把下面原本判断Debug级别的位置 换成INFO
+ */
+public class ThreadFeignLogger extends feign.Logger{
+    private final org.slf4j.Logger logger;
+
+    public ThreadFeignLogger() {
+        this(Logger.class);
+    }
+
+    public ThreadFeignLogger(Class<?> clazz) {
+        this(LoggerFactory.getLogger(clazz));
+    }
+
+    public ThreadFeignLogger(String name) {
+        this(LoggerFactory.getLogger(name));
+    }
+
+    ThreadFeignLogger(org.slf4j.Logger logger) {
+        this.logger = logger;
+    }
+
+    protected void logRequest(String configKey, Level logLevel, Request request) {
+        if (this.logger.isInfoEnabled()) {
+            super.logRequest(configKey, logLevel, request);
+        }
+
+    }
+    protected Response logAndRebufferResponse(String configKey, Level logLevel, Response response, long elapsedTime) throws IOException {
+        return this.logger.isInfoEnabled() ? super.logAndRebufferResponse(configKey, logLevel, response, elapsedTime) : response;
+    }
+    @Override
+    protected void log(String configKey, String format, Object... args) {
+        if (this.logger.isInfoEnabled()) {
+            this.logger.info(String.format(methodTag(configKey) + format, args));
+        }
+    }
+}
+```
+
+**在Feign的 全局 或 自定义 服务配置类中声明这个重写的@Bean**
+
+```java
+public class FeignConfiguration {
+    /**
+     *让Feign可以再INFO级别下显示
+     */
+    @Bean
+    public Contract feignContract(){
+        return new Contract.Default();
+    }
+    
+    @Bean
+    public Logger logger(){
+        return new ThreadFeignLogger();
+    }
+}
+```
+
