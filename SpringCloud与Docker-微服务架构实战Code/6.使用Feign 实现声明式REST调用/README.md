@@ -184,7 +184,7 @@ feign:
 ```yaml
 logging:
   level:
-	#要打印日志的 FeignClient 的包路径
+    #要打印日志的 FeignClient 的包路径
     thread.consumer.feign: debug
 ```
 
