@@ -159,6 +159,8 @@ feign:
                 - com.example.FooRequestInterceptor
                 - com.example.BarRequestInterceptor
             decode404: false
+    #feign配置文件的方式比java配置优先级要高,如果想java配置优先级开这里可以设置为false
+    default-to-properties: false 
 ```
 
 ### 使用Java配置类形式
