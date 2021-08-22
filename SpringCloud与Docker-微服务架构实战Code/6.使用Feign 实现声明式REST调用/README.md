@@ -140,6 +140,27 @@ public class HelloController {
 
 - 配置 Contract Bean的实现类  取值：SpringMvcContract 采用SpringMVC契约注解  Contract.Default 启用默认的Feign提供的契约注解
 
+```yaml
+feign:
+	client:
+		feignName:
+			#相当于Request.Options
+			connectTimeOut: 5000
+			#相当于Request.Options
+			readTimeOut: 5000
+			#配置Feign的日志级别，相当于代码配置方式中的Logger
+			loggerLevel: full
+			#Feign的错误解码器,相当于代码配置中的ErrorDecoder
+			errorDecoder: com.example.SimpleErrorDecoder
+			#配置重试,相当于代码配置方式中的Retryer
+			retryer: com.example.SimpleRetryer
+			#配置拦截器,相当于代码配置方式中的RequestInterceptor
+			requestInterceptors:
+				- com.example.FooRequestInterceptor
+				- com.example.BarRequestInterceptor
+			decode404: false
+```
+
 ### 使用Java配置类形式
 
 #### 声明 Feign的配置类
@@ -259,7 +280,7 @@ public Logger.Level level(){
 }
 ```
 
-#### 让Feign可以再INFO级别下显示
+#### 让Feign可以在INFO级别下显示
 
 **重写Feign的Logger的实现类方式，默认应该是用的feign.slf4j.Slf4jLogger这个类，比着这个实现一下把DEBUG处理改成INFO**
 
