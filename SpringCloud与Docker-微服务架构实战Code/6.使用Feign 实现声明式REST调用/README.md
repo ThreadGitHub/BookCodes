@@ -145,9 +145,9 @@ feign:
     client:
         feignName:
             #相当于Request.Options
-            connectTimeOut: 5000
+            connectTimeout: 5000
             #相当于Request.Options
-            readTimeOut: 5000
+            readTimeout: 5000
             #配置Feign的日志级别，相当于代码配置方式中的Logger
             loggerLevel: full
             #Feign的错误解码器,相当于代码配置中的ErrorDecoder
