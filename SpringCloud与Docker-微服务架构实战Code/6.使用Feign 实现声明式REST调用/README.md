@@ -539,8 +539,6 @@ feign:
       min-request-size: 2048
     response:
       enabled: true
-      mime-types: "text/xml", "application/xml", "application/json"
-      min-request-size: 2048
 ```
 
 ## 6.7 Feign的日志配置
