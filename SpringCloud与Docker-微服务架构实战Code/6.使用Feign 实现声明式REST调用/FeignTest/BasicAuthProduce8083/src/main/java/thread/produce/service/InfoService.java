@@ -1,5 +1,5 @@
 package thread.produce.service;
 
-public interface InfoServicee {
+public interface InfoService {
     public String getInfo();
 }

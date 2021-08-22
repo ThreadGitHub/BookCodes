@@ -18,7 +18,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <srpingboot.version>2.5.3</srpingboot.version>
+        <srpingboot.version>2.2.7.RELEASE</srpingboot.version>
     </properties>
 
     <!--依赖SpringBoot-->

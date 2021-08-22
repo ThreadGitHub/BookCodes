@@ -1,10 +1,8 @@
 package thread.consumer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import thread.consumer.feign.BasicAuthConfigurationClient;
 import thread.consumer.feign.UserConfigurationClient;
 import java.util.List;
 
@@ -30,12 +28,12 @@ public class HelloController {
         return userNames;
     }
 
-    @Autowired
-    private BasicAuthConfigurationClient basicAuthConfigurationClient;
-
-    @RequestMapping("/hello3")
-    public String hello3(){
-        return basicAuthConfigurationClient.getInfo();
-    }
+//    @Autowired
+//    private BasicAuthConfigurationClient basicAuthConfigurationClient;
+//
+//    @RequestMapping("/hello3")
+//    public String hello3(){
+//        return basicAuthConfigurationClient.getInfo();
+//    }
 
 }

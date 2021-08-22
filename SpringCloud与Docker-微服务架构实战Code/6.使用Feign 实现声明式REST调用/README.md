@@ -347,3 +347,235 @@ public class FeignConfiguration {
 }
 ```
 
+## 6.3 手动创建FeignClient (Feign.builder)
+
+> 消费者通过BasicHttp验证方式访问生产者服务，根据SprigSecurity提供不同的用户和角色来创建不同的FeignClient
+>
+> 不同的FeignClient 携带着不同的 用户信息 到了 生产者那里 根据携带信息的权限来进行处理
+
+### 为生产者服务提供BasicHttp验证方式
+
+提供两个用户：[xiaoming  123  角色role-user] 和  [zhangsan 123  角色role-admin]  两个用户 分别对应两个角色
+
+```java
+@Configuration
+@EnableWebSecurity
+public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
+    //开启HttpBasic认证
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
+    }
+
+    //声明无密码加密
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Autowired
+    private CustomUserDetails customUserDetails;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.customUserDetails).passwordEncoder(this.passwordEncoder());
+    }
+
+    //配置授权和实体的服务
+    @Component
+    class CustomUserDetails implements UserDetailsService{
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            if(username.equals("xiaoming")){
+                return new SecurityUser("xiaoming","123", "role-user");
+            }else if(username.equals("zhangsan")){
+                return new SecurityUser("zhangsan", "123", "role-admin");
+            }
+            return null;
+        }
+    }
+
+    //配置用户和授权实体
+    class SecurityUser implements UserDetails{
+        private String password;
+        private String username;
+        private String role;
+
+        public SecurityUser(String username, String password, String role){
+            this.username = username;
+            this.password = password;
+            this.role = role;
+        }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            Collection<GrantedAuthority> collection = new ArrayList<GrantedAuthority>();
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(this.role);
+            collection.add(simpleGrantedAuthority);
+            return collection;
+        }
+
+        @Override
+        public String getPassword() {
+            return password;
+        }
+
+        @Override
+        public String getUsername() {
+            return username;
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return true;
+        }
+    }
+}
+```
+
+### 生产者服务获取现在登录用户的信息，根据用户信息的不同做不能的处理
+
+```java
+//获取登录用户
+@RequestMapping("/loginName")
+public String getLoginName(){
+    String username = "";	//用户名
+    String password = "";	//密码
+    String role = "";		//角色
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if(principal instanceof UserDetails){
+        UserDetails userDetails = (UserDetails)principal;
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        for(GrantedAuthority grantedAuthority : authorities){
+            username = userDetails.getUsername();
+            password = userDetails.getPassword();
+            role = grantedAuthority.getAuthority();
+            logger.info("用户名：{}\t密码：{}\t角色：{}", username, password, role);
+        }
+    }
+    return "<h1>当前用户</h1><br/>用户名："+ username +"\t密码："+ password +"\t角色：" + role;
+}
+```
+
+### 消费者服务创建公共的FeignClient
+
+```java
+@FeignClient("basicAuth-produce")
+public interface BasicAuthFeignClient {
+    @RequestMapping("/loginName")
+    public String getLoginName();
+}
+```
+
+### 消费者服务通过Feign.builder创建不同权限Client实例
+
+**new BasicAuthRequestInterceptor("xiaoming","123")   通过BasicHttp方式验证用户**
+
+**target(BasicAuthFeignClient.class,"http://basicAuth-produce:8083")  要构建的FeignClient实例和生产者服务的url**
+
+```java
+@Import(FeignClientsConfiguration.class)
+@RestController
+public class BasicAuthFeignController {
+    //用户FeignClient
+    private BasicAuthFeignClient userFeignClient;
+    //管理员Feignclient
+    private BasicAuthFeignClient adminFeignClient;
+
+    /**
+     * 初始化Controller时创建 根据用户和角色的不同 创建不同形态的 Client
+     * 利用BasicHttp 进行认证的方式 传输不同的用户名和密码
+     * @param decoder
+     * @param encoder
+     * @param client
+     * @param contract
+     */
+    public BasicAuthFeignController(Decoder decoder, Encoder encoder, Client client, Contract contract){
+        /**
+         * 这里的构造方法的参数 是通过 @Import(FeignClientsConfiguration.class)导入Bean的方式注入进来的
+         */
+        this.userFeignClient= Feign.builder().client(client).
+            					encoder(encoder).decoder(decoder).contract(contract).
+      			requestInterceptor(new BasicAuthRequestInterceptor("xiaoming","123")).
+                target(BasicAuthFeignClient.class,"http://basicAuth-produce:8083");
+
+        this.adminFeignClient = Feign.builder().client(client).encoder(encoder).
+            					decoder(decoder).contract(contract).
+                requestInterceptor(new BasicAuthRequestInterceptor("zhangsan","123")).
+                target(BasicAuthFeignClient.class,"http://basicAuth-produce:8083");
+    }
+    //管理员调用管理员的Client
+    @RequestMapping("/admin")
+    public String getAdmin(){
+        String loginName = adminFeignClient.getLoginName();
+        return loginName;
+    }
+    //普通用户调用普通用户的Client
+    @RequestMapping("/user")
+    public String getUser(){
+        String loginName = userFeignClient.getLoginName();
+        return loginName;
+    }
+}
+```
+
+## Feign.builder() 和 BasicAuthRequestInterceptor 的实现的操作过程
+
+```java
+Feign.builder().client(client).encoder(encoder).decoder(decoder).contract(contract).
+requestInterceptor(new BasicAuthRequestInterceptor("xiaoming","123"))
+```
+
+**`client(client).encoder(encoder).decoder(decoder).contract(contract)` 这一部分正常为FeignClient设置默认的设置信息通过`@Import(FeignClientsConfiguration.class)` 导入来的设置进行的配置**
+
+`requestInterceptor(new BasicAuthRequestInterceptor("xiaoming","123"))` 设置BasicHttp认证的用户名和密码也就是生产者服务SpringSecurity配置的用户信息
+
+#### Feign的BasicAuthRequestInterceptor 实际上就是处理传过来的用户名和密码，最后在HTTP请求头上加上Authorization头设置，用于生产者服务的BasicHttp验证
+
+```java
+package feign.auth;
+
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import feign.Util;
+import java.nio.charset.Charset;
+
+public class BasicAuthRequestInterceptor implements RequestInterceptor {
+    private final String headerValue;
+
+    public BasicAuthRequestInterceptor(String username, String password) {
+        this(username, password, Util.ISO_8859_1);
+    }
+
+    public BasicAuthRequestInterceptor(String username, String password, Charset charset) {
+        Util.checkNotNull(username, "username", new Object[0]);
+        Util.checkNotNull(password, "password", new Object[0]);
+        this.headerValue = "Basic " + base64Encode((username + ":" + password).getBytes(charset));
+    }
+
+    private static String base64Encode(byte[] bytes) {
+        return Base64.encode(bytes);
+    }
+	
+    public void apply(RequestTemplate template) {
+        //加入basicHttp用户信息
+        template.header("Authorization", new String[]{this.headerValue});
+    }
+}
+```
+

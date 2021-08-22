@@ -30,4 +30,3 @@ feign:
 logging:
   level:
     thread.consumer.feign: info
-
