@@ -7,6 +7,10 @@ spring:
   application:
     name: thread-consumer
 
+logging:
+  level:
+    thread.consumer: info
+
 #设置Eureka客户端配置
 eureka:
   client:
@@ -17,16 +21,26 @@ eureka:
   instance:
     prefer-ip-address: true #把client的ip注册到eureka 默认是主机名
 
+#设置FeignRest调用配置
 feign:
+  #开启Feign对与请求和响应的压缩
+  compression:
+    request:
+      enabled: true
+      mime-types: "text/xml", "application/xml", "application/json"
+      min-request-size: 2048
+    response:
+      enabled: true
+      mime-types: "text/xml", "application/xml", "application/json"
+      min-request-size: 2048
+
   client:
     config:
       #为单独的 服务配置Feign配置
       thread-produce:
-        loggerLevel: full #配置Feign日志 为full
+        loggerLevel: BASIC #配置Feign日志 为full
+        contract: feign.Contract.Default  #配置默认的FeignClient用的契约
       #配置全局的Feign配置
       default:
         loggerLevel: BASIC
-
-logging:
-  level:
-    thread.consumer.feign: info
+    default-to-properties: true  #控制属性配置是否优先与java配置  false不优先 true优先

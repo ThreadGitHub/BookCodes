@@ -19,4 +19,10 @@ public class UserServiceImpl implements UserService {
         return this.data;
     }
 
+    @Override
+    public String getUserNameById(int id) {
+        String userName = data.get(id);
+        return userName;
+    }
+
 }

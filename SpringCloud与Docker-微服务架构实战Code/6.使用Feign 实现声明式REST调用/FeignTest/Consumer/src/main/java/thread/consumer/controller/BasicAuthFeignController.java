@@ -8,7 +8,6 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import thread.consumer.feign.BasicAuthFeignClient;

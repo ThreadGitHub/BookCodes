@@ -235,119 +235,7 @@ feign:
         loggerLevel: BASIC
 ```
 
-### Feign的日志配置
-
-#### Feign的日志级别
-
-- NONE	无记录
-- BASIC  只记录请求方法，URL，响应状态代码，执行时间
-- HEADERS 记录基本信息，请求和响应标头
-- FULL 记录请求和响应的头文件，正文和元数据
-
-#### 开启Debug日志级别
-
-默认的Feign只对Debug级别提供显示，所以修改日志级别为debug
-
-```yaml
-logging:
-  level:
-    #要打印日志的 FeignClient 的包路径
-    thread.consumer.feign: debug
-```
-
-#### yaml配置Feign的日志显示的内容的级别
-
-```yaml
-feign:
-  client:
-    config:
-      #为单独的 服务配置Feign配置
-      thread-produce:
-        loggerLevel: full #配置Feign日志 为full
-      #配置全局的Feign配置
-      default:
-        loggerLevel: BASIC
-```
-
-#### java配置类配置，在feign配置类中加入Logger.level 配置
-
-```java
-/**
- * 配置 Feign 的日志级别
- * @return
- */
-@Bean
-public Logger.Level level(){
-    return Logger.Level.FULL;
-}
-```
-
-#### 让Feign可以在INFO级别下显示
-
-**重写Feign的Logger的实现类方式，默认应该是用的feign.slf4j.Slf4jLogger这个类，比着这个实现一下把DEBUG处理改成INFO**
-
-```java
-/**
- * 重写feign.Logger实现 用SpringBoot的自定义配置 大于 原本自动注入的原则 这里重写了实现 优先用这里 
- * 把下面原本判断Debug级别的位置 换成INFO
- */
-public class ThreadFeignLogger extends feign.Logger{
-    private final org.slf4j.Logger logger;
-
-    public ThreadFeignLogger() {
-        this(Logger.class);
-    }
-
-    public ThreadFeignLogger(Class<?> clazz) {
-        this(LoggerFactory.getLogger(clazz));
-    }
-
-    public ThreadFeignLogger(String name) {
-        this(LoggerFactory.getLogger(name));
-    }
-
-    ThreadFeignLogger(org.slf4j.Logger logger) {
-        this.logger = logger;
-    }
-
-    protected void logRequest(String configKey, Level logLevel, Request request) {
-        if (this.logger.isInfoEnabled()) {
-            super.logRequest(configKey, logLevel, request);
-        }
-
-    }
-    protected Response logAndRebufferResponse(String configKey, Level logLevel, Response response, long elapsedTime) throws IOException {
-        return this.logger.isInfoEnabled() ? super.logAndRebufferResponse(configKey, logLevel, response, elapsedTime) : response;
-    }
-    @Override
-    protected void log(String configKey, String format, Object... args) {
-        if (this.logger.isInfoEnabled()) {
-            this.logger.info(String.format(methodTag(configKey) + format, args));
-        }
-    }
-}
-```
-
-**在Feign的 全局 或 自定义 服务配置类中声明这个重写的@Bean**
-
-```java
-public class FeignConfiguration {
-    /**
-     *让Feign可以再INFO级别下显示
-     */
-    @Bean
-    public Contract feignContract(){
-        return new Contract.Default();
-    }
-    
-    @Bean
-    public Logger logger(){
-        return new ThreadFeignLogger();
-    }
-}
-```
-
-## 6.3 手动创建FeignClient (Feign.builder)
+## 6.4 手动创建FeignClient (Feign.builder)
 
 > 消费者通过BasicHttp验证方式访问生产者服务，根据SprigSecurity提供不同的用户和角色来创建不同的FeignClient
 >
@@ -575,6 +463,194 @@ public class BasicAuthRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
         //加入basicHttp用户信息
         template.header("Authorization", new String[]{this.headerValue});
+    }
+}
+```
+
+## 6.5 Feign对继承的支持
+
+> Feign支持自定义api接口 用于FeignClient继承，但是api中的所用的请求的注解要和FeignClient中用的契约一直	
+
+### 定义Api接口
+
+```java
+/**
+ * Feign Client 支持集成接口的形式来扩展FeignClient的接口
+ * 但是继承过来的接口 他的契约格式要按照FeignClient的契约格式来写
+ */
+public interface UserService {
+    //SpringMVC契约格式  调用 服务生产者 提供的 /getUserNames 资源
+//    @RequestMapping("/getUserNames")
+//    public List<String> getUserNames();
+
+    //Feign默认契约格式  调用 服务生产者 提供的 /getUserNames 资源
+    @RequestLine("GET /getUserNames")
+    public List<String> getUserNames();
+}
+```
+
+### FeignClient可以集成api的接口进行扩展自己的方法
+
+```java
+/**
+ * extends UserService 通过集成接口的方式来扩展自己
+ */
+@FeignClient(name = "thread-produce", configuration = FeignConfiguration.class)
+public interface UserFeignClient extends UserService {
+    //Feign默认的Client的请求写法
+    //根据用户id获取用户名称
+    @RequestLine("GET /user/{id}")
+    public String getUserNameById(@Param("id") int id);
+
+    //SpringMVC契约模式
+//    @RequestMapping("/user/{id}")
+//    public String getUserNameById(@PathVariable("id") int id);
+}
+```
+
+**此时FeignCleint就具备了UserService中继承过来的方法了** 
+
+## 6.6 Feign 对压缩的支持
+
+> Feign支持对 请求和响应进行压缩
+
+### 开启 请求和响应的压缩功能
+
+```yaml
+#开启Feign对与请求和响应的压缩
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+```
+
+### 更详细的配置
+
+```yaml
+#设置FeignRest调用配置
+feign:
+  #开启Feign对与请求和响应的压缩
+  compression:
+    request:
+      enabled: true
+      mime-types: "text/xml", "application/xml", "application/json"
+      min-request-size: 2048
+    response:
+      enabled: true
+      mime-types: "text/xml", "application/xml", "application/json"
+      min-request-size: 2048
+```
+
+## 6.7 Feign的日志配置
+
+### Feign的日志级别
+
+- NONE	无记录
+- BASIC  只记录请求方法，URL，响应状态代码，执行时间
+- HEADERS 记录基本信息，请求和响应标头
+- FULL 记录请求和响应的头文件，正文和元数据
+
+### 开启Debug日志级别
+
+默认的Feign只对Debug级别提供显示，所以修改日志级别为debug
+
+```yaml
+logging:
+  level:
+    #要打印日志的 FeignClient 的包路径
+    thread.consumer.feign: debug
+```
+
+### yaml配置Feign的日志显示的内容的级别
+
+```yaml
+feign:
+  client:
+    config:
+      #为单独的 服务配置Feign配置
+      thread-produce:
+        loggerLevel: full #配置Feign日志 为full
+      #配置全局的Feign配置
+      default:
+        loggerLevel: BASIC
+```
+
+### java配置类配置，在feign配置类中加入Logger.level 配置
+
+```java
+/**
+ * 配置 Feign 的日志级别
+ * @return
+ */
+@Bean
+public Logger.Level level(){
+    return Logger.Level.FULL;
+}
+```
+
+### 让Feign可以在INFO级别下显示
+
+**重写Feign的Logger的实现类方式，默认应该是用的feign.slf4j.Slf4jLogger这个类，比着这个实现一下把DEBUG处理改成INFO**
+
+```java
+/**
+ * 重写feign.Logger实现 用SpringBoot的自定义配置 大于 原本自动注入的原则 这里重写了实现 优先用这里 
+ * 把下面原本判断Debug级别的位置 换成INFO
+ */
+public class ThreadFeignLogger extends feign.Logger{
+    private final org.slf4j.Logger logger;
+
+    public ThreadFeignLogger() {
+        this(Logger.class);
+    }
+
+    public ThreadFeignLogger(Class<?> clazz) {
+        this(LoggerFactory.getLogger(clazz));
+    }
+
+    public ThreadFeignLogger(String name) {
+        this(LoggerFactory.getLogger(name));
+    }
+
+    ThreadFeignLogger(org.slf4j.Logger logger) {
+        this.logger = logger;
+    }
+
+    protected void logRequest(String configKey, Level logLevel, Request request) {
+        if (this.logger.isInfoEnabled()) {
+            super.logRequest(configKey, logLevel, request);
+        }
+
+    }
+    protected Response logAndRebufferResponse(String configKey, Level logLevel, Response response, long elapsedTime) throws IOException {
+        return this.logger.isInfoEnabled() ? super.logAndRebufferResponse(configKey, logLevel, response, elapsedTime) : response;
+    }
+    @Override
+    protected void log(String configKey, String format, Object... args) {
+        if (this.logger.isInfoEnabled()) {
+            this.logger.info(String.format(methodTag(configKey) + format, args));
+        }
+    }
+}
+```
+
+**在Feign的 全局 或 自定义 服务配置类中声明这个重写的@Bean**
+
+```java
+public class FeignConfiguration {
+    /**
+     *让Feign可以再INFO级别下显示
+     */
+    @Bean
+    public Contract feignContract(){
+        return new Contract.Default();
+    }
+    
+    @Bean
+    public Logger logger(){
+        return new ThreadFeignLogger();
     }
 }
 ```

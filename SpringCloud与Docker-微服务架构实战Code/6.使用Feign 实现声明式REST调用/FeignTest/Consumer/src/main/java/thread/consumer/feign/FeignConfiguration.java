@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
  */
 //@Configuration
 public class FeignConfiguration {
-
     /**
      * Feign 默认的契约是 Spring MVC的注解  用的是 SpringMvcContract 所以 FeignClient 可以使用mvc注解来去定义
      * Contract.Default() 改成了 Feign默认的契约 所以这里配置了以后就要修改FeignClient的注解
@@ -19,22 +18,25 @@ public class FeignConfiguration {
      */
     @Bean
     public Contract feignContract(){
-        return new Contract.Default();
-//      SpringMvcContract
+//        return new Contract.Default();
+      return new SpringMvcContract();
     }
 
     /**
      * 配置 Feign 的日志级别
      * @return
      */
-   /* @Bean
+    @Bean
     public Logger.Level level(){
         return Logger.Level.FULL;
-    }*/
+    }
 
+    /**
+     * 配置重写的Logger允许Feign在INFO级别下输出日志
+     * @return
+     */
     @Bean
     public Logger logger(){
         return new ThreadFeignLogger();
     }
-
 }
