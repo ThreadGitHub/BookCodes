@@ -372,9 +372,9 @@ public interface BasicAuthFeignClient {
 
 ### 消费者服务通过Feign.builder创建不同权限Client实例
 
-**new BasicAuthRequestInterceptor("xiaoming","123")   通过BasicHttp方式验证用户**
+**`new BasicAuthRequestInterceptor("xiaoming","123")`   通过BasicHttp方式验证用户**
 
-**target(BasicAuthFeignClient.class,"http://basicAuth-produce:8083")  要构建的FeignClient实例和生产者服务的url**
+**`target(BasicAuthFeignClient.class,"http://basicAuth-produce:8083")`  要构建的FeignClient实例和生产者服务的url**
 
 ```java
 @Import(FeignClientsConfiguration.class)
