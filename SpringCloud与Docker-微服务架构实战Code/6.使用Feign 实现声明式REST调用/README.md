@@ -675,6 +675,8 @@ public String getUserNameByUserPOST(@RequestBody User user){
 
 ### FeignClient实现方式   @RequestBody 只支持PostBody是json的形式 Get请求不支持
 
+> Get方式的 参数 必须要加上 @RequestParam 注解
+
 ```java
 /**
  * extends UserService 通过集成接口的方式来扩展自己
