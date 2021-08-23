@@ -316,7 +316,7 @@ spring:
 
 eureka:
   client:
-  	#所有的EurekaServer的连接都合并到一起
+    #所有的EurekaServer的连接都合并到一起
     service-url:
       defaultZone: http://admin:123@eureka-server:8671/eureka, http://admin:123@eureka-server2:8672/eureka, http://admin:123@eureka-server3:8673/eureka
 
