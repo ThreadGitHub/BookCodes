@@ -713,6 +713,22 @@ public interface UserFeignClient extends UserService {
 
 > 上传主要代码在 Consumer 的 FileUploadCleint 和 FileUploadConfiguration类中
 
+### 添加Feign对于上传文件的依赖
+
+```xml
+<!--Feign对于上传文件的依赖-->
+<dependency>
+    <groupId>io.github.openfeign.form</groupId>
+    <artifactId>feign-form-spring</artifactId>
+    <version>3.8.0</version>
+</dependency>
+<dependency>
+    <groupId>io.github.openfeign.form</groupId>
+    <artifactId>feign-form</artifactId>
+    <version>3.8.0</version>
+</dependency>
+```
+
 ### SpringBoot配置上传文件大小无限制
 
 ```yaml
