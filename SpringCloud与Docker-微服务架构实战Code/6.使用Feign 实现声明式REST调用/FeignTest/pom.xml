@@ -9,10 +9,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>EurekaServer</module>
-        <module>Consumer</module>
-        <module>Produce</module>
-        <module>BasicAuthProduce8083</module>
+        <module>EurekaServer-777</module>
+        <module>Consumer-8080</module>
+        <module>Produce-8081-8082</module>
+        <module>BasicAuthProduce-8083</module>
+        <module>FileUpload-8084</module>
     </modules>
 
     <properties>

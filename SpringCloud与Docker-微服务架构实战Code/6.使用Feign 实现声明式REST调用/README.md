@@ -44,6 +44,18 @@
 	<artifactId>spring-cloud-starter-openfeign</artifactId>
 	<version>2.2.4.RELEASE</version>
 </dependency>
+
+<!--Feign对于上传文件的依赖-->
+<dependency>
+    <groupId>io.github.openfeign.form</groupId>
+    <artifactId>feign-form-spring</artifactId>
+    <version>3.8.0</version>
+</dependency>
+<dependency>
+    <groupId>io.github.openfeign.form</groupId>
+    <artifactId>feign-form</artifactId>
+    <version>3.8.0</version>
+</dependency>
 ```
 
 ## 使用RestTemplate服务之间的REST调用方式缺点
@@ -694,6 +706,60 @@ public interface UserFeignClient extends UserService {
 
     @PostMapping("/post/user")
     public String getUserNameByIdPOST(@RequestBody User user);
+}
+```
+
+## 6.9 使用 Feign 上传文件
+
+> 上传主要代码在 Consumer 的 FileUploadCleint 和 FileUploadConfiguration类中
+
+### SpringBoot配置上传文件大小无限制
+
+```yaml
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1 #设置上传文件大小无限制
+```
+
+### 生产者提供一个上传文件的接口，写法就是SpringMVC的上传接口的写法
+
+```java
+@Controller
+public class FileUploadController {
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestPart MultipartFile file){
+        String upload = fileUploadClient.upload(file);
+        return upload;
+    }
+}
+```
+
+### 消费者 创建上传文件的FeignClient进行调用生产者
+
+```java
+@FeignClient(name = "file-upload", configuration = FileUploadClient.FileUploadConfiguration.class)
+public interface FileUploadClient {
+    //consumes设置提交类型是什么
+    //这里 consumes = MediaType.MULTIPART_FORM_DATA_VALUE 设置上是formdata的方式
+    //produces 设置返回类型是什么
+    @RequestMapping(value = "/upload", method = RequestMethod.POST,
+            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String upload(@RequestPart("file")MultipartFile file);
+
+    //定义FeignUpload的配置
+    class FileUploadConfiguration{
+        /**
+         * 加载用于Spring上传的 Encoder
+         * @return
+         */
+        @Bean
+        public Encoder encoder(){
+            return new SpringFormEncoder();
+        }
+    }
 }
 ```
 

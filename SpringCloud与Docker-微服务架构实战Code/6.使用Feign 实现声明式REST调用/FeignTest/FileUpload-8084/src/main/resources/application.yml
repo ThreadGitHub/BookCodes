@@ -1,0 +1,21 @@
+server:
+  port: 8084
+
+spring:
+  servlet:
+    multipart:
+      max-file-size:  -1  #设置最大上传大小为无限制
+  application:
+    name: file-upload
+  thymeleaf:
+    cache: false #缓存干掉
+
+#EurekaClient
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:777/eureka
+  instance:
+    prefer-ip-address: true

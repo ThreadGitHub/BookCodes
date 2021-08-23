@@ -2,10 +2,14 @@
 server:
   port: 8080
 
-#eureka客户端服务名
 spring:
   application:
-    name: thread-consumer
+    name: thread-consumer #eureka客户端服务名
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: -1 #设置上传文件大小无限制
 
 #日志级别
 logging:
