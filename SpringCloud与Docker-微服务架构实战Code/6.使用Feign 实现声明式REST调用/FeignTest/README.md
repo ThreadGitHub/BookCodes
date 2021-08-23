@@ -1,5 +1,7 @@
 ## 启动步骤
 
+![image-20210823141048957](README.assets/image-20210823141048957.png)
+
 ### 1. 启动EureakServer
 
 > 查看Eureka 注册中心访问地址：http://localhost:777 
