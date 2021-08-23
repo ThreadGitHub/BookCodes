@@ -16,7 +16,7 @@ public class RibbonConfiguration {
      * @return
      */
     @Bean
-        public IRule ribbonRule(){
+    public IRule ribbonRule(){
         return new RandomRule();
     }
 }
