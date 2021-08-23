@@ -4,6 +4,9 @@ server:
 
 users:
   data:
-    - 小初
-    - 小贺
-    - 小仓鼠
+    - id: 1
+      name: 小初
+    - id: 2
+      name: 小贺
+    - id: 3
+      name: 小仓鼠

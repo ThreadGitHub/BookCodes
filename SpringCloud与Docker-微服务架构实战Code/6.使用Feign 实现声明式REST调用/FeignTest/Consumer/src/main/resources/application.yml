@@ -7,6 +7,7 @@ spring:
   application:
     name: thread-consumer
 
+#日志级别
 logging:
   level:
     thread.consumer: info
@@ -37,7 +38,7 @@ feign:
       #为单独的 服务配置Feign配置
       thread-produce:
         loggerLevel: BASIC #配置Feign日志 为full
-        contract: feign.Contract.Default  #配置默认的FeignClient用的契约
+#        contract: feign.Contract.Default  #配置默认的FeignClient用的契约
       #配置全局的Feign配置
       default:
         loggerLevel: BASIC

@@ -4,6 +4,9 @@ server:
 
 users:
   data:
-    - xiaochu
-    - xiaohe
-    - xiaocangshu
+    - id: 1
+      name: xiaochu
+    - id: 2
+      name: xiaohe
+    - id: 3
+      name: xiaocangshu

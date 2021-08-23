@@ -1,9 +1,8 @@
 package thread.consumer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import thread.consumer.domain.User;
 import thread.consumer.feign.UserFeignClient;
 
 import java.util.List;
@@ -14,14 +13,18 @@ public class HelloController {
     private UserFeignClient userFeignClient;
 
     @RequestMapping("/hello")
-    public List<String> hello(){
-        List<String> userNames = userFeignClient.getUserNames();
-        return userNames;
+    public List<User> hello(){
+        List<User> users = userFeignClient.getUserNames();
+        return users;
     }
 
-    @RequestMapping("/user/{id}")
-    public String getUserNameById(@PathVariable int id){
-        return userFeignClient.getUserNameById(id);
+    @GetMapping("/get/user")
+    public String getUserNameById(int id, String name){
+        return userFeignClient.getUserNameByIdGET(id, name);
     }
 
+    @PostMapping("/post/user")
+    public String getUserNameById(@RequestBody User user){
+        return userFeignClient.getUserNameByIdPOST(user);
+    }
 }

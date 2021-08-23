@@ -653,3 +653,45 @@ public class FeignConfiguration {
 }
 ```
 
+## 6.8 使用Feign构建多参数请求
+
+### 例如生产者服务Get和Post接口方式
+
+```java
+@GetMapping("/get/user")
+public String getUserNameByUserGET(User user){
+    int id = user.getId();
+    return userService.getUserNameById(id);
+}
+```
+
+```java
+@PostMapping("/post/user")
+public String getUserNameByUserPOST(@RequestBody User user){
+    int id = user.getId();
+    return userService.getUserNameById(id);
+}
+```
+
+### FeignClient实现方式   @RequestBody 只支持PostBody是json的形式 Get请求不支持
+
+```java
+/**
+ * extends UserService 通过集成接口的方式来扩展自己
+ */
+@FeignClient(name = "thread-produce", configuration = FeignConfiguration.class)
+public interface UserFeignClient extends UserService {
+    //Feign默认的Client的请求写法
+    //根据用户id获取用户名称
+//    @RequestLine("GET /user/{id}")
+//    public String getUserNameById(@Param("id") int id);
+
+    //SpringMVC契约模式
+    @GetMapping("/get/user")
+    public String getUserNameByIdGET(@RequestParam int id, @RequestParam String name);
+
+    @PostMapping("/post/user")
+    public String getUserNameByIdPOST(@RequestBody User user);
+}
+```
+
