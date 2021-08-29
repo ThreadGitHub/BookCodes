@@ -1,4 +1,4 @@
-#  6.使用Feign实现声明式REST调用
+#  6.使用Feign实现声明式REST调用	
 
 ![FeignRest调用](README.assets/FeignRest%E8%B0%83%E7%94%A8.png)
 

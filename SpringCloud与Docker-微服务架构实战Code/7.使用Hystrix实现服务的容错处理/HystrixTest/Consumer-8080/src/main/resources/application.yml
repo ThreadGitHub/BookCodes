@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: thread-consumer
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:777/eureka
+
+#Actuator 配置访问的路径是 根路径/ 然后 暴露全部监控接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #配置暴露全部的监控接口
+      base-path: /  #配置访问路径
+  endpoint:
+    health:
+      show-details: always  #配置健康接口显示详细信息
