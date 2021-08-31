@@ -12,6 +12,8 @@
         <module>EurekaServer-777</module>
         <module>Consumer-8080</module>
         <module>ProviderUser-8081</module>
+        <module>Hystrix-Dashboard</module>
+        <module>Hystrix-Turbine</module>
     </modules>
 
     <properties>

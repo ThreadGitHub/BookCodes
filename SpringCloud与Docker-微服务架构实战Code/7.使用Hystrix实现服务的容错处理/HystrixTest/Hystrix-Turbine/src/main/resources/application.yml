@@ -1,0 +1,23 @@
+server:
+  port: 889
+
+spring:
+  application:
+    name: hystrix-turbine
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:777/eureka
+  instance:
+    prefer-ip-address: true
+
+#配置Turbine监控设置
+#turbine url  http://localhost:889/turbine.stream
+turbine:
+  app-config: thread-consumer #配置汇总监控信息的服务
+  cluster-name-expression: "'default'"
+  #这个属性可能联想不出来  但是可以设置 instanceUrlSuffix 因为默认访问服务的都是 http://localhost:889/xxx/turbine.stream
+  instanceUrlSuffix: hystrix.stream

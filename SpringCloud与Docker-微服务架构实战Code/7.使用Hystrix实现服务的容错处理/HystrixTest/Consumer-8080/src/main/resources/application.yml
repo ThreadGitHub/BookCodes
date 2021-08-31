@@ -22,3 +22,8 @@ management:
   endpoint:
     health:
       show-details: always  #配置健康接口显示详细信息
+
+#开启Feign对于Hystrix的容错
+feign:
+  hystrix:
+    enabled: true

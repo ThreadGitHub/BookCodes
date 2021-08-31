@@ -1,0 +1,6 @@
+server:
+  port: 888
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "localhost"
