@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: provider-user
+  application:
+    name: provider-user
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:700/eureka
+
+#用户服务
+---
+spring:
+  profiles: provider-user
+
+server:
+  port: 800
+data:
+  users:
+    - xiaoming
+    - xiaohong
+    - xiaochu
+
+#用户服务2
+---
+spring:
+  profiles: provider-user2
+
+server:
+  port: 801
+
+data:
+  users:
+    - 小明
+    - 小红
+    - 小初

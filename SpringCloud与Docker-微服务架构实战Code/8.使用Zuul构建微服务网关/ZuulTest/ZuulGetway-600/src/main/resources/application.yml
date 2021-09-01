@@ -1,0 +1,13 @@
+server:
+  port: 600
+
+spring:
+  application:
+    name: getway-zuul
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:700/eureka
