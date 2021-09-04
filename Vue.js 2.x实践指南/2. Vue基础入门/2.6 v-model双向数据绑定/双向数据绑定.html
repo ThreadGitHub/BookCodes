@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向数据绑定.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <style rel="stylesheet">
+        input{
+            width:400px;
+            height:20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <h2>{{msg}}</h2>
+       <div>
+           v-model: <input type="text" v-model="msg" />
+       </div>
+       <div>
+           v-bind:value : <input type="text" v-bind:value="msg" />
+       </div>
+    </div>
+    <script type="text/javascript">
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: '敌不动, 我不动, 敌一动, 我一动不动'
+            },
+            methods: {
+                
+            }
+        });
+    </script>
+</body>
+</html>

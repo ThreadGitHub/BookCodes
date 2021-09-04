@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-html指令.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>v-text:</h1>
+        <div v-text="html"></div>
+        <h1>v-html:</h1>
+        <div v-html="html"></div>
+    </div>
+    <script type="text/javascript">
+        const app = new Vue({
+            el: '#app',
+            data: {
+                html : '我是一段<code style="color:red;">HTML</code>文本'
+            }
+        });
+    </script>
+</body>
+</html>

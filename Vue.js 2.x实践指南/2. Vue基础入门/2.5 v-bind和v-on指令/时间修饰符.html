@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间修饰符.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>阻止冒泡 :  @click.stop"</h1>
+        <div class="parent_div" @click="innerHandler()" style="background-color: red;">
+            <input type="button" @click.stop="clickMethod()" value="阻止父层元素的冒泡事件" />
+        </div>
+         
+        <h1>阻止默认行为 .prevent</h1>
+        <a href="https://www.baidu.com" @click.prevent="a_click()">我是a标签</a>
+
+        <h1>使用事件捕获模式，从父层到子层依次执行</h1>
+        <div class="parent_div" @click.capture="innerHandler()">
+            <input type="button" @click="clickMethod()" value="先执行父层的冒泡事件,然后执行点击的元素" />
+        </div>
+        
+        <h1>.self 阻止冒泡</h1>
+        <div class="parent_div" @click.self="innerHandler()" style="background-color: red;">
+            <input type="button" @click="clickMethod()" value="阻止父层元素的冒泡事件" />
+        </div>
+
+        <h1>.prevent.once 只触发一次事件处理函数，执行完一次后走元素默认行为</h1>
+        <a href="https://www.baidu.com/" @click.prevent.once="a_click">只触发一次事件处理函数</a>
+
+        <h1>.stop和.self 的区别 self被标识的当前元素不触发  stop是真正阻止当前元素的全部父元素的冒泡</h1>
+        <div class="parent_parent_div" @click="innerHandler('父层的父层')">
+            <div class="parent_div" @click="innerHandler('父层')" style="background-color: red;">
+                <input type="button" @click.stop="clickMethod()" value="stop阻止冒泡" />
+            </div>
+        </div>
+
+        <div class="parent_parent_div" @click="innerHandler('父层的父层')">
+            <div class="parent_div" @click.self="innerHandler('父层')" style="background-color: red;">
+                <input type="button" @click="clickMethod()" value="self阻止冒泡" />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const app = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            methods: {
+                innerHandler(msg){
+                    if(!msg) msg = "";
+                    console.log("触发父元素的冒泡事件: " + msg);
+                },
+                clickMethod(){
+                    console.log("click...");
+                },
+                a_click(){
+                  console.log("a click...");  
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跑马灯效果.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app" style="text-align: center;">
+        <div style="background-color: black;color:red;display: inline-block;font-size:30px;" 
+             v-text="msg" @mouseenter="stop()" @mouseleave="start()"></div>
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                msg: '你见或者不见我, 我就在那里, 不悲不喜; 你念或者不念我, 情就在那里, 不来不去。',
+                interval: null
+            },
+            created(){
+                this.start();
+            },
+            methods: {
+                start(){
+                    if(this.interval != null) return;
+                    this.interval = setInterval(() => {
+                        var start = this.msg.substring(0,1);
+                        var end = this.msg.substr(1);
+                        this.msg = end + start;
+                    }, 300);
+                },
+                stop(){
+                    clearInterval(this.interval);
+                    this.interval = null;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind&v-on指令.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="点我点我" v-bind:title="title" v-on:click="alertClick('单击消息')"></input>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+               title: '我是title信息'
+            },
+            methods: {
+                alertClick : function(msg){
+                    alert("提示信息: " + msg);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
