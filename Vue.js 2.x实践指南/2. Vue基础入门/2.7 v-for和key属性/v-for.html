@@ -9,13 +9,27 @@
 </head>
 <body>
     <div id="app">
-
+        <p v-for="(value, key, index) in userInfo">键是：{{key}}, 值是：{{value}}, 索引：{{index}}</p>
+        <p v-for="i in 3">这是第 {{i}} 个 P 标签.</p>
+        <ul>
+            <li v-for="(item, index) in users">
+                {{index++}}.[{{item.title}}] {{item.name}} 
+            </li>
+        </ul>
     </div>
     <script type="text/javascript">
         const app = new Vue({
             el: '#app',
             data: {
-                
+                list : ['《水浒传》', '《三国演义》', '《西游记》', '《红楼梦》'],
+                users : [{name : '段延庆', title : '恶贯满盈'},
+                { name : '叶二娘', title : '无恶不做'},
+                { name : '南海鳄神', title : '凶神恶煞'},
+                { name : '云中鹤', title : '穷凶极恶'}],
+                userInfo : {
+                    username : '张三丰',
+                    age : 100
+                }
             },
             methods: {
 
