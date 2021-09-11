@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for-key.html</title>
+    <script src="../../js/vue.js" type="text/javascript"></script> 
+</head>
+<body>
+    <!-- v-show 和 v-if 都是动态显示和隐藏元素 -->
+    <!-- v-show 空值元素的display css属性 -->
+    <!-- v-if 是控制元素的增加和删除 -->
+    <div id="app">
+        <h1 v-if="flag">从一而终</h1>
+        <h1 v-show="flag">反复无常</h1>
+        <input type="button" value="隐藏/显示" @click="flag=!flag" />
+    </div>
+
+    <script>
+        const app = new Vue({
+            el : '#app',
+            data : {
+                flag : true
+            },
+            methods : {
+                
+            }
+        });
+    </script>
+</body>
+</html>
