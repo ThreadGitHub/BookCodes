@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json-client.html</title>
+    <script type="text/javascript">
+        function showInfo(data){
+            document.write(JSON.stringify(data));
+        }
+    </script>
+    <!-- JSONP 是利用了 Script标签支持跨域获取js的特性 增加了一个回调返回一个调用自己js的一个callback 并把数据也返回到响应里 -->
+    <script type="text/javascript" src="http://127.0.0.1:8000/actionScript?callback=showInfo"></script>
+</head>
+<body>
+    
+</body>
+</html>
