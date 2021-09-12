@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 自定义指令的使用 定义不加 v-  使用的时候要加上这个前缀 -->
+        <input type="text" v-focus v-color="'red'" v-font-size="17"/>
+    </div>
+    <script>
+        // 设定一个自动获取焦点的指令
+        Vue.directive('focus',{
+            //绑定后立即执行
+            bind : function(el){
+
+            },
+            //插入dom后执行
+            inserted : function(el){
+                el.focus();
+            },
+            //vue更新元素时执行
+            updated : function(el){
+
+            }
+        });
+        const app = new Vue({
+            el : '#app',
+            data : {
+                
+            },
+            methods : {
+
+            },
+            directives : {
+                color : {
+                    bind(el, binding){
+                        el.style.color = binding.value;
+                    }
+                },
+                // 如果想让中间有- 加上 引号括起来
+                'font-size' : {
+                    bind(el, binding){
+                        el.style.fontSize = binding.value + 'px';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

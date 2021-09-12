@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增删改查示例.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <link rel="stylesheet" href="../../css/bootstrap.css"></link>
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    添加用户
+                </h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    用户名称:
+                    <input type="text" class="form-control" v-model="userInfo.username" />
+                </label>
+                <label>
+                    江湖绰号:
+                    <input type="text" class="form-control" v-model="userInfo.title"/>
+                </label>
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-focus v-model="keywords"/>
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click="addUser()" />
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>绰号</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in search(keywords)">
+                    <td>{{item.id}}</td>
+                    <td>{{item.username}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.createTime | dataFormat}}</td>
+                    <td>
+                        <a @click.prevent="delUser(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        Vue.directive('focus',{
+            inserted : function(el){
+                el.focus();
+            }
+        });
+
+        Vue.filter('dataFormat',function(input, pattern = ''){
+            var dt = new Date(input);
+            var y = dt.getFullYear();
+            var m = (dt.getMonth() + 1).toString().padStart(2, '0');
+            var d = dt.getDate().toString().padStart(2, '0');
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${y}-${m}-${d}`;
+            }else{
+                var hh = dt.getHours().toString().padStart(2,'0');
+                var mm = dt.getMilliseconds().toString().padStart(2,'0');
+                var ss = dt.getSeconds().toString().padStart(2,'0');
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+            }
+        });
+
+        const app = new Vue({
+            el : '#app',
+            data : {
+                keywords : '',
+                userInfo : {
+                    username : '',
+                    title : ''
+                },
+                list : [
+                    { id : 1, username : '楚留香', title : '盗帅', createTime : new Date() },
+                    { id : 2, username : '沈浪', title : '天下第一名侠', createTime : new Date() }
+                ] 
+            },
+            methods : {
+                addUser(){
+                    var id = this.list[this.list.length -1].id + 1;
+                    var userInfo = { id : id, username : this.userInfo.username, title : this.userInfo.title, createTime : new Date()};
+                    this.list.push(userInfo);
+                    this.userInfo = {username : '', title : ''};
+                },
+                search(keywords){
+                    return this.list.filter(item => {
+                        if(item.username.includes(keywords)){
+                            return item;
+                        }
+                    });
+                },
+                delUser(id){
+                    var index = this.list.findIndex(item => {
+                        if(item.id == id){
+                            return true;
+                        }
+                    });
+                    this.list.splice(index,1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>键盘修饰符.html</title>
+    <script src="../../js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="app">
+        <input v-on:keyup.enter="submit" v-on:keyup.f2="submit"/>
+    </div>
+    <script>
+        // 通过 Vue.config.keyCodes定义别名
+        Vue.config.keyCodes.f2 = 113;   //F2键
+        const app = new Vue({
+            el : '#app',
+            data : {
+
+            },
+            methods : {
+                submit(){
+                    alert('提交');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

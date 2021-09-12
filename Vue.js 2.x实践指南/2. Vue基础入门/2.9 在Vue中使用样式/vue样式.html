@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue样式</title>
+    <script src="../../js/vue.js" type="text/javascript"></script>
+    <style type="text/css">
+        .bigFont{
+            font-size: xx-large;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind 和 直接 :class 都是可以的 -->
+        <p v-bind:class="['bigFont']">直接绑定class</p>
+        <p v-bind:class="[isBigFont ? 'bigFont' : '']">三元运算符判断绑定class</p>
+        <p :class="{bigFont:true}">直接使用对象</p>
+        <p :style="{color:'red'}">v-bind:style color red</p>
+        <p :style="mystyle">mystyle</p>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el : '#app',
+            data : {
+                isBigFont : true,
+                mystyle : {color : 'blue'}
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>
