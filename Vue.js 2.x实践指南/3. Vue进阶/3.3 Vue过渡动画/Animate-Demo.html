@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate-Demo.html</title>
+    <script src="../../js/vue.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../../css/animate.css"></link>
+</head>
+<body>
+    <div id="app">
+        <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+            <div v-if="flag">你见, 或不见我, 我就在那里, 不悲不喜</div>
+        </transition>
+
+        <transition enter-active-class="rubberBand" leave-active-class="swing" :duration="200">
+            <div v-if="flag" class="animated">你见, 或不见我, 我就在那里, 不悲不喜</div>
+        </transition>
+
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{ enter : 200, leave : 400}">
+            <div v-if="flag" class="animated">你见, 或不见我, 我就在那里, 不悲不喜</div>
+        </transition>
+
+        <input type="button" value="隐藏/显示" @click="flag = !flag"/>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el : '#app',
+            data : {
+                flag : true
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

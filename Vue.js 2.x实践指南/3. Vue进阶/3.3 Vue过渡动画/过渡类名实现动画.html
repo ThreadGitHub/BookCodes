@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过渡类名实现动画.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <style>
+        /* v-enter  [时间点] 是进入之前元素的起始状态, 此时还没有开始进入*/
+        /* v-leave-to [时间点] 是动画离开之后, 离开的终止状态, 此时, 元素动画已经结束*/
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        /* v-enter-active 入场动画的时间段*/
+        /* v-leave-active 离场动画的时间段*/
+        .v-enter-active,
+        .v-leave-active{
+            transform: all 0.8s ease;
+        }
+
+        /* 如果transition设置了name属性的情况 */
+        .fade-enter,
+        .fade-leave-to{
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .fade-enter-active,
+        .fade-leave-active{
+            transform: all 0.2s ease;
+            position : absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="隐藏/显示" @click="flag = !flag" />
+        <transition name="fade">
+            <div v-if="flag">你见, 或不见我, 我就在那里, 不悲不喜</div>
+        </transition>
+    </div>
+
+    <script type="text/javascript">
+        const app = new Vue({
+            el : '#app',
+            data : {
+                flag : true
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>
