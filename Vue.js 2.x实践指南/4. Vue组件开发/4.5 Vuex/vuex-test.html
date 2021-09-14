@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuex 测试</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vuex.js"></script>
+</head>
+<body>
+    <template id="temp">
+        <div>
+            <span>组件1:</span>
+            <input type="button" value="+" @click="add()"/>
+            <input type="button" value="-" @click="contract()"/>
+        </div>
+    </template>
+
+    <template id="temp2">
+        <div>
+            <span>组件2:</span>
+            <input type="text" :value="$store.getters.getCount" />
+        </div>
+    </template>
+
+    <div id="app">
+        <!-- <h3>当前Count的值：{{$store.count}}</h3>       这种错误 -->
+        <h3>当前Count的值：{{$store.getters.getCount}}</h3>
+        <temp></temp>
+        <temp2></temp2>
+    </div>
+
+    <script>
+        // 定义一个vuex  实例名称只能是 store
+        var store = new Vuex.Store({
+            state : {
+                count : 0
+            },
+            mutations : {
+                // 增加
+                increment : function(){
+                    this.state.count++;
+                },
+                contract : function(){
+                    this.state.count--;
+                }
+            },
+            getters : {
+                getCount(state){
+                    return state.count;
+                }
+            }
+        });
+        const app = new Vue({
+            el : '#app',
+            store,  //把vuex应用到vue实例中去
+            data : {
+
+            },
+            methods : {
+                
+            },
+            components : {
+                // 组件调用 vuex 中的方法 通过commit 而不是直接通过属性.调用
+                temp : {
+                    template : '#temp',
+                    methods : {
+                        add(){
+                            store.commit('increment');
+                        },
+                        contract(){
+                            store.commit('contract');
+                        }
+                    }
+                },
+                temp2 : {
+                    template : '#temp2'
+                }
+            }
+        });
+    </script>
+</body>
+</html>

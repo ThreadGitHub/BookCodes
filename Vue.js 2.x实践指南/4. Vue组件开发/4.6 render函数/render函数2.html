@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render函数2.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <style rel="stylesheet">
+        .ul-nav{
+            color:orange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        你看不见我 !!!
+    </div>
+    <script>
+        var login = {
+            template : '<h3>登录 !!!</h3>'
+        }
+        const app = new Vue({
+            el : '#app',
+            data : {
+                menu_map : ['item1', 'item2', 'item3', 'item4']
+            },
+            // 通过render函数替换掉 vue el容器的区域
+            // render 函数的 参数是 createElement函数
+            // createElement 函数有三个参数
+            // 第一个参数: 一个HTML标签 或 组件类型 或 一个函数
+            // 第二个参数: 一个对应属性的数据对象, 用于向创建的节点对象设置属性值
+            // 子节点 一般可以接着调用 createElement创建子节点 
+            render : function(createElement){
+                return createElement('ul', {class:{'ul-nav':true}},
+                    this.menu_map.map(item => createElement('li', item))
+                );
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

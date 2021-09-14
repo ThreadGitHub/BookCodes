@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render函数.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        你看不见我 !!!
+    </div>
+    <script>
+        var login = {
+            template : '<h3>登录 !!!</h3>'
+        }
+        const app = new Vue({
+            el : '#app',
+            data : {
+
+            },
+            // 通过render函数替换掉 vue el容器的区域
+            render : function(createElement){
+                return createElement(login);
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>
