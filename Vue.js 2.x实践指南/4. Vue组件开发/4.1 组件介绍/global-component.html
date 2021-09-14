@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全局组件定义的三种方式.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <script id="tmp1" type="x-template">
+        <div><a href="#">登录</a> | <a href="#">注册</a></div>
+    </script>
+    <div id="app">
+        <my-login></my-login>
+        <register></register>
+        <account></account>
+    </div>
+
+    <script type="text/javascript">
+        // 第一种方式 Vue.extend 加上 Vue.component方式定义全局组件
+        var login = Vue.extend({
+            template : '<h3>登录</h3>'
+        }); 
+        Vue.component('myLogin',login);
+
+        // 第二种方式直接使用 Vue.component注册组件
+        Vue.component('register',{
+            template : '<h3>注册</h3>'
+        });
+
+        //第三种定义到 Script标签
+        Vue.component('account',{
+            template : '#tmp1'
+        });
+        const app = new Vue({
+            el : '#app',
+            data : {
+
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

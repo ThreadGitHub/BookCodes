@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子组件向父组件传值.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+
+<body>
+    <template id="son">
+        <div style="background-color: orange;">
+            <h1>我是子组件</h1>
+            <input type="button" @click="clickMethod()" value="点我为父组件赋值" />
+        </div>
+    </template>
+
+    <div id="app">
+        <div>
+            {{message}} {{date}}
+        </div>
+
+        <son @func="showMsg" @func2="showDate"></son>
+    </div>
+
+    <script type="text/javascript">
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: '父组件信息',
+                date : '时间'
+            },
+            methods: {
+                showMsg(message) {
+                    this.message = message;
+                },
+                showDate(date){
+                    this.date = date;
+                }
+            },
+            components: {
+                son: {
+                    template: '#son',
+                    data() {
+                        return {
+                            msg : '子组件赋值的信息'
+                        };
+                    },
+                    methods: {
+                        clickMethod(){
+                            console.log('赋值');
+                            this.$emit('func',this.msg);
+                            this.$emit('func2',new Date().toLocaleDateString());
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

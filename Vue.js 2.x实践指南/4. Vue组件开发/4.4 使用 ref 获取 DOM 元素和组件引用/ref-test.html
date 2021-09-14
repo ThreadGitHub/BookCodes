@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ref 获取Dom元素和组件引用</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <test ref="test"></test>
+
+        <hr />
+
+        <input type="button" @click="clickMethod()" value="ref-调用子组件的方法-改变文字"/>
+
+        <input type="button" @click="clickMethod2()" value="ref-获取组件dom-改变文字"/>
+
+        <h3 ref="h3">一段标题文字</h3>
+    </div>
+
+    <script>
+        var test = {
+            template:'<div><h1>{{title}}</h1></div>',
+            data (){
+                return {
+                    title : '测试组件'
+                };
+            },
+            methods : {
+                alterMessage(){
+                    this.title = '更改文字';
+                }
+            }
+        };
+
+        const app = new Vue({
+            el : '#app',
+            data : {
+                
+            },
+            methods : {
+                clickMethod(){
+                    // $.refs 调用子组件的方法
+                    this.$refs.test.alterMessage();
+                },
+                clickMethod2(){
+                    // 获取el引用的dom 然后操作改变文字
+                    console.log(this.$refs.h3);
+                    console.log(this.$refs.test.title);
+                    console.log(this.$refs.test.$el);
+                    var el = this.$refs.test.$el;
+                    var h1 = el.getElementsByTagName("h1")[0];
+                    h1.innerHTML = '123';
+                }
+            },
+            components : {
+                test : test
+            }
+        });
+
+    </script>
+</body>
+</html>

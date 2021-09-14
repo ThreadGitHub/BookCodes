@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component-is切换组件.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <style rel="stylesheet">
+        .v-enter,
+        .v-leaver-to{
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <login></login>
+        <register></register>
+
+        <a href="" @click.prevent="colName = 'register'">注册</a>
+        <a href="" @click.prevent="colName = 'login'">登录</a>
+
+        <!-- 通过 component :is 并增加切换动画 -->
+        <transition>
+            <component :is="colName"></component>
+        </transition>
+    </div>
+    <script>
+        Vue.component('login',{
+            template : '<h2>登录</h2>'
+        });
+
+        Vue.component('register',{
+            template : '<h2>注册</h2>'
+        });
+
+        const app = new Vue({
+            el : '#app',
+            data : {
+                colName : 'login'
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

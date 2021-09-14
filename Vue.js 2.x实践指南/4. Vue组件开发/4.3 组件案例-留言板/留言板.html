@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <link rel="stylesheet" href="../../css/bootstrap.css"></link>
+</head>
+
+<body>
+    <!-- 留言组件 -->
+    <template id="messageBoard">
+        <div style="width:400px;float:left;margin-top:20px;">
+            <div class="form-group">
+                <label for="exampleInputEmail1">留言人:</label>
+                <input type="email" v-model="name" class="form-control" id="exampleInputEmail1" placeholder="留言人">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">留言内容:</label>
+                <textarea v-model="content" type="email" class="form-control" id="exampleInputEmail1" placeholder="留言内容" style="height:200px;"></textarea>
+            </div>
+            <a class="btn btn-default" href="#" role="button" @click="boardSubmit()">发表留言</a>
+        </div>
+    </template>
+
+    <!-- 留言列表查看组件 -->
+    <template id="messageList">
+        <div style="float:left;margin-top:20px;">
+            <h3>留言列表</h3>
+            <blockquote v-for="item in list">
+                {{item.content}} 留言时间:{{item.date | dateFormat}} 留言人: {{item.name}}
+            </blockquote>
+        </div>
+    </template>
+
+    <div id="app">
+        <!-- 留言功能 -->
+        <message-board @func="reloadMessageList" style="margin-left:20px;"></message-board>
+        <!-- 中间的分割空间 -->
+        <div style="width:20px;float:left;height: 100px;"></div>
+        <!-- 留言展示列表 -->
+        <message-list ref="messagelist"></message-list>
+    </div>
+
+    <script>
+        Vue.filter('dateFormat',function(dt){
+            return new Date(dt).toLocaleDateString();
+        });
+
+        // 留言组件
+        var messageBoard = {
+            template: '#messageBoard',
+            data() {
+                return {
+                    name : '',
+                    content : ''
+                };
+            },
+            methods: {
+                boardSubmit(){
+                    // 留言内容存入 localStorage
+                    var list = localStorage.getItem('list');
+                    var board = {
+                        name : this.name,
+                        content : this.content,
+                        date : new Date()
+                    };
+                    var array = new Array();
+                    if(list){
+                        array = JSON.parse(list);
+                        array.push(board);
+                    }else{
+                        var array = [board];
+                    }
+                    var arrayStr = JSON.stringify(array);
+                    localStorage.setItem("list", arrayStr);
+
+                    // 留言组件内容置空
+                    this.content = '';
+                    this.name = '';
+
+                    // 刷新留言组件
+                    // location.reload();
+                    this.$emit('func');
+                }
+            }
+        };
+
+        // 留言列表
+        var messageList = {
+            template : '#messageList',
+            data(){
+                return {
+                    list : [
+                        {name : '小名', date : new Date(), content : '今天天气真好'}
+                    ]
+                };
+            },
+            created(){
+                this.reloadList();
+            },
+            methods : {
+                reloadList(){
+                    var list = localStorage.getItem("list");
+                    if(list){
+                        var listObj = JSON.parse(list);
+                        this.list = listObj;
+                    }
+                }
+            }
+        };
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            mounted(){
+                // setInterval(() => {
+                //     this.reloadMessageList();
+                // }, 100);
+            },
+            methods: {
+                reloadMessageList(){
+                    alert("子组件调用父组件的方法, 父组件方法调用另一个子组件实现留言的刷新")
+                    // 定时刷新留言列表组件
+                    this.$refs.messagelist.reloadList();
+                }
+            },
+            components: {
+                messageBoard: messageBoard,
+                messageList : messageList
+            }
+        });
+    </script>
+</body>
+
+</html>
