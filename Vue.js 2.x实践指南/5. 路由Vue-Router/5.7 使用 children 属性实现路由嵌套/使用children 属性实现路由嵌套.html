@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由嵌套.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>xx后台登录系统</h2>
+        <router-view></router-view>
+    </div>
+
+    <!-- 登录组件 -->
+    <template id="login">
+        <div style="background-color: orange;">
+            <h3>用户登录</h3>
+            <router-link to="/login/forgetPasswd">忘记密码</router-link>
+            <router-link to="/scanLogin">扫描登录</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        var forgetPasswd = Vue.extend({
+            template : '<h4>忘记密码组件</h4>'
+        });
+        Vue.component('forgetPasswd', forgetPasswd);
+
+        var scanLogin = Vue.extend({
+            template : '<h4>扫描登录组件</h4>'
+        });
+
+        var router = new VueRouter({
+            routes : [
+                { path : '/', redirect : '/login'},
+                {
+                    path : '/login', component : { template : '#login' },
+                    // 通过 children 属性来增加子路由 子路由不应该加 / 如果加了就成了根路径开始了
+                    children : [
+                        { path : 'forgetPasswd', component : forgetPasswd}, //路由访问地址是 #/login/forgetPasswd
+                        { path : '/scanLogin', component : scanLogin}       //路由访问地址是 #/scanLogin
+                    ]
+                }
+            ]
+        });
+        
+        const app = new Vue({
+            el : '#app',
+            router : router
+        });
+    </script>
+</body>
+</html>
