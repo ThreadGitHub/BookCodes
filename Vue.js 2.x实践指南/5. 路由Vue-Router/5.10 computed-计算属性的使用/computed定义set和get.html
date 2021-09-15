@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed计算属性.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>数量:</span>
+            <input type="text" v-model="num"/>
+            <span>单价:</span>
+            <input type="text" v-model="price"/>
+        </div>
+        <p>
+            <input type="button" value="调用计算属性的set方法重新设置合计的结果为100" @click="priceChange()"/>
+        </p>
+        <h3 v-text="sum"></h3>
+    </div>
+
+    <script type="text/javascript">
+        const app = new Vue({
+            el : '#app',
+            data : {
+                num : 2,
+                price : 9
+            },
+            methods : {
+                priceChange : function(){
+                    this.sum = 100;
+                }
+            },
+            computed : {
+                sum : {
+                    // 计算属性拿到新值 并动态的更改当前计算属性涉及到的其他值的值
+                    set : function(newVal){
+                        this.price = newVal / this.num;
+                    },
+                    get : function(){
+                        return  "合记:" + this.num * this.price;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
