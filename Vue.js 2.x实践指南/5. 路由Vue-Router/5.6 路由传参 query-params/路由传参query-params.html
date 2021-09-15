@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由传参query-params.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login?name=小猪&age=19">query参数</router-link>
+        <router-link to="/login/小明/17">parmas参数</router-link>
+        <!-- 显示组件 -->
+        <router-view></router-view>
+    </div>
+
+    <template id="login">
+        <h3>
+            <p>登录组件</p>
+            <p>query参数  name: {{$route.query.name}} age : {{$route.query.age}}</p>
+            <p>params参数 name:{{$route.params.name}} age:{{$route.params.age}}</p>
+        </h3>
+    </template>
+
+    <script type="text/javascript">
+        // 定义登录组件
+        var login = Vue.extend({
+            template : '#login'
+        });
+        Vue.component('login',login);
+
+        // 定义路由
+        var router = new VueRouter({
+            routes : [
+                { path : '/', redirect : '/login'},
+                { path : '/login', component : login},
+                { path : '/login/:name/:age', component : login}
+            ]
+        });
+
+        const app = new Vue({
+            el : '#app',
+            router : router,
+            data : {
+
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

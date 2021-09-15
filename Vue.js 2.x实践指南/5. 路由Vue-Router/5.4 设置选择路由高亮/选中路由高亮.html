@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选中路由高亮.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+    <style rel="stylesheet">
+        /* router-link 标签默认存在一个选中后的class标识, 
+           router-link-exact-active 是一直就存在的选择标识后面那个可以自定义 */
+        .router-link-exact-active, .router-link-active{
+            color : orange;
+        }
+
+        /* 自己定义的选中 router-link 后的class标识*/
+        .linkActive{
+            color : orange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript">
+        // 定义组件
+        var login = Vue.extend({
+            template : '<h3>登录组件</h3>'
+        });
+        var register = Vue.extend({
+            template : '<h3>注册组件</h3>'
+        });
+        Vue.component('login',login);
+        Vue.component('register',register);
+
+        // 定义路由
+        var router = new VueRouter({
+            linkActiveClass : 'linkActive',
+            routes : [
+                { path : '/', redirect : '/'},
+                { path : '/login', component : login},
+                { path : '/register', component : register}
+            ]
+        });
+        
+        // vue实例
+        const app = new Vue({
+            el : '#app',
+            router : router, //应用路由规则
+            data : {
+
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

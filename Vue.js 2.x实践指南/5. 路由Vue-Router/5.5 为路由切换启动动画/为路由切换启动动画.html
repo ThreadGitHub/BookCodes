@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为路由切换启动动画.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+    <style rel="stylesheet">
+        /* 为 路由添加切换动画和 transition 的用法一样 */
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transform: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 使用 transition 标签增加动画 -->
+        <transition model="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+
+    <script type="text/javascript">
+        // 定义组件
+        var login = Vue.extend({
+            template : '<h3>登录组件</h3>'
+        });
+        var register = Vue.extend({
+            template : '<h3>注册组件</h3>'
+        });
+        Vue.component('login', login);
+        Vue.component('register', register);
+
+        // 定义路由
+        var router = new VueRouter({
+            routes : [
+                { path : '/', redirect : '/login' },
+                { path : '/login', component : login },
+                { path : '/register', component : register }
+            ]
+        });
+
+        const app = new Vue({
+            el : '#app',
+            router : router,
+            data : {
+
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>

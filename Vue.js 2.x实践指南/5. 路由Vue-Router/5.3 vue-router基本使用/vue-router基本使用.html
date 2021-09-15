@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router基本使用.html</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script type="text/javascript" src="../../js/vue-router.js"></script>
+</head>
+<body>
+   
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-view></router-view>
+    </div>
+    
+    <script type="text/javascript">
+        // 注册组件
+        var login = Vue.extend({
+            template : '<h3>登录组件</h3>'
+        });
+        var register = Vue.extend({
+            template : '<h3>注册组件</h3>'
+        });
+        Vue.component('login',login);
+        Vue.component('register',register);
+
+        Vue.use(VueRouter);
+
+        // 定义路由规则
+        var router = new VueRouter({
+            routes : [  //这里注意 其他的都是router 这里是 routes ...
+                { path : '/', redirect : '/login'},
+                { path : '/login', component : login},
+                { path : '/register', component : register}
+            ]
+        });
+        // vue 实例
+        const app = new Vue({
+            el : '#app',
+            router : router,  //应用路由规则
+            data : {
+
+            },
+            methods : {
+
+            }
+        });
+    </script>
+</body>
+</html>
