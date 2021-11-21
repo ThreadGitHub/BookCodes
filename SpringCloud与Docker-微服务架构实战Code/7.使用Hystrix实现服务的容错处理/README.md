@@ -16,7 +16,7 @@ Hystrix 提供了一个断路器机制，下面是它的一个运行逻辑
 
 ## 7.2 使用 Hystrix 实现容错
 
-### 7.2.2 使用通用方式整合Hystrix RestTemplat	e
+### 7.2.2 使用通用方式整合Hystrix RestTemplate
 
 #### 导入Hystrix的依赖
 
