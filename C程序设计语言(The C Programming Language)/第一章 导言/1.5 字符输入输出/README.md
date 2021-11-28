@@ -4,7 +4,7 @@
 >
 > putchar()  将单个字符输出到控制台
 >
-> EOF stdio.h 中定义的常量 表示Control + c结束字符 -1
+> EOF stdio.h 中定义的常量 表示 Control + Z 结束字符 -1
 >
 > '\n' 如果输入一行最后的换行想结束可以 != '\n' 的条件
 
