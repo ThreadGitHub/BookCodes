@@ -14,7 +14,7 @@ C语言中 0 表示 false ， 大于 0 的话表示true，这里是和java语言
 
 参考链接：https://www.runoob.com/note/34742
 
-> 3.3 elseif 中的 对半查找：(要求查找的数组从小到大排列)
+## 3.3 elseif 中的 对半查找：(要求查找的数组从小到大排列)
 
 ```C
 int main(){
@@ -44,7 +44,7 @@ int binsearch(int searchNum, int array[], int size){
 }
 ```
 
-> 3.5 while 循环与 for循环 : 比较有意思的for循环 末尾表达式中的逗号 (测了一下java居然也支持，孤陋寡闻了..)
+## 3.5 while 循环与 for循环 : 比较有意思的for循环 末尾表达式中的逗号 (测了一下java居然也支持，孤陋寡闻了..)
 
 ```c
 int c = 0;
@@ -53,7 +53,7 @@ for(int i=0;i < 10;i++, c++){
 }
 ```
 
-> 3.6 goto 语句与标号 (语句跳转，反复横跳...)
+## 3.6 goto 语句与标号 (语句跳转，反复横跳...)
 
 ```c
 int main(){
