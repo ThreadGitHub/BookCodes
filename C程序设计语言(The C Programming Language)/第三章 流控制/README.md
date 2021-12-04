@@ -55,6 +55,25 @@ for(int i=0;i < 10;i++, c++){
 
 > 3.6 goto 语句与标号 (语句跳转，反复横跳...)
 
+```c
+int main(){
+// tag: //go可以往前横跳
+
+    for(int i = 0;i < 10;i++){
+        for(int j = 0;j < 20;j++){
+            printf("for %d\n", j);
+            if(j == 2){
+                goto tag;
+            }
+            
+        }
+    }
+tag: //向下横跳
+    printf("gogo ....");
+    return 0;
+}
+```
+
 goto 语言只要你想可以向上或者向下 反复横跳....
 
 总结：尽量少用...
