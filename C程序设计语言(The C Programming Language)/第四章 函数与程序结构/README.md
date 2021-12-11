@@ -54,3 +54,9 @@ register int a = 0;
 ```
 
 书中原话：register 声明告诉编译器，它所声明的变量在程序中使用频率较高，其思想是将 register 变量放在机器的寄存器中，这样可以使程序更小，执行速度更快。但编译器可以忽略此选项。或者存在某种限制，不一定什么类型都可以都放到寄存器里。
+
+## 4.11.3 条件包含
+
+![image-20211211230901325](C:\Users\Thread\AppData\Roaming\Typora\typora-user-images\image-20211211230901325.png)
+
+![image-20211211230910869](C:\Users\Thread\AppData\Roaming\Typora\typora-user-images\image-20211211230910869.png)
