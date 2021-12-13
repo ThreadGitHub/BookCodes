@@ -23,3 +23,14 @@ int main(){
 }
 ```
 
+## 5.2 指针与函数参数
+
+```c
+//指针类型参数
+int swap(int *num, int *num2){
+    int temp = *num;
+    *num = *num2;
+    *num2 = temp;
+}
+```
+
