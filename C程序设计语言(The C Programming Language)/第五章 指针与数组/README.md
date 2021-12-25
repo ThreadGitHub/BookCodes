@@ -148,7 +148,7 @@ printf("%d\t%d", a[0][0], b[0][0]);
 >
 > 第二个参数字符型数组指针 char *argv[] 表示每个参数的内容
 >
-> 例如 find -s abc -r a  那么 argc 的值为4   argv数组指针中的每个内容就是  ["-s",  "abc",  "-r",  "a"]
+> 例如 find -s abc -r a  那么 argc 的值为4 ，  argv数组指针中的每个内容就是  ["-s",  "abc",  "-r",  "a"]
 
 ### 1. 实现 echo 程序
 
