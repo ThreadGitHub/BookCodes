@@ -140,3 +140,58 @@ b[1] = array2;
 printf("%d\t%d", a[0][0], b[0][0]);
 ```
 
+## 5.10 命令行参数
+
+### 1. 实现 echo 程序
+
+```c
+/**
+ * 实现echo程序
+ */
+int main(int argc, char *argv[]){
+    for(int i = 0; i < argc;i++){
+        printf("%s\t", argv[i]);
+    }
+    return 0;
+}
+```
+
+### 2. 设计实现 find 程序查找单字符
+
+```c
+/**
+ * 和书中的find不同自己设计的   
+ * find -s 字符串 -r 匹配值  返回 -s字符串中匹配到的索引开始位置
+ * ./find -s jasdlfjdsaklg -r a     返回：index: 2 index: 10
+ */
+int main(int argc, char *argv[]){
+    char *str;
+    char *regex;
+    while(--argc > 0){
+        char *arg = *++argv;
+        // printf("[%d]%s\t",argc, arg);
+        //通过参数 取到参数的值
+        if(strcmp(arg, "-s") == 0){
+            str = *(argv+1);
+            // printf("%s", str);
+        }
+        
+        //通过参数取到参数的值
+        if(strcmp(arg, "-r") == 0){
+            regex = *(argv+1);
+            // printf("%s", regex);
+        }
+    }
+
+    int i = 0;
+    while(str[i]){
+        char c = str[i++];
+        if(c == *regex){
+            printf("index: %d\n", i);
+        }
+    }
+
+    return 0;
+}
+```
+
