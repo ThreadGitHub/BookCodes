@@ -118,3 +118,28 @@ int main(){
 ```
 
 参考文章：http://c.biancheng.net/view/2033.html
+
+## 6.5 自引用结构
+
+自引用结构大概就是数据结构中的树比较好的形象，自己的机构体体中有自己的结构体
+
+![image-20211227230524467](README.assets/image-20211227230524467.png)
+
+```c
+//定义一个树结构
+struct tnode{
+    char *title;
+    struct tnode *left;
+    struct tnode *right;
+} root;
+
+//递归打印树结构
+void printTree(struct tnode *tree){
+    if(tree != NULL){
+        printf("%s\n", tree->title);
+        printTree(tree->left);
+        printTree(tree->right);
+    }
+}
+```
+
