@@ -233,7 +233,4 @@ int sum(int num, int num2){
 }
 ```
 
-[参考文章]: http://c.biancheng.net/view/2023.html	"参考文章"
-
-
-
+参考文章：http://c.biancheng.net/view/2023.html
