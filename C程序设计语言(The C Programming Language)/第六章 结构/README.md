@@ -94,3 +94,26 @@ int main(){
 }
 ```
 
+## 6.4 指向结构的指针
+
+> 指向结构的指针可以通过  -> 箭头的方式进行获取值， -> 箭头这也是在C语言中唯一的作用
+
+```c
+struct student{
+    char *name;
+    int age;
+} stu={"xiaoming", 18}, *p = &stu;
+
+int main(){
+    printf("%s \t %d\n", p->name, p->age);
+
+    //定义结构指针
+    struct student stu2 = {
+        "xiaozhang", 20
+    };
+    struct student *p2 = &stu2;
+    printf("%s \t %d\n", p2->name, p2->age);
+    return 0;
+}
+```
+
