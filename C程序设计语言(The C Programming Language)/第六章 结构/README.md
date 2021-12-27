@@ -1,0 +1,55 @@
+# 第六章 结构
+
+## 6.1 结构体的基本知识
+
+### 定义结构体
+
+```c
+//定义结构体
+struct point{
+    int x;
+    int y;
+};
+
+//定义结构体的同时创建结构体变量 p2
+struct point2{
+    int x;
+    int y;
+} p2;
+
+//定义结构体变量
+struct point p = {1,2};
+//输出结构体的 数据
+printf("x: %d\t y: %d\n", p.x, p.y);
+```
+
+## 6.2 结构与函数
+
+### 结构体参数的函数
+
+```c
+//定义结构体的参数的函数
+struct point sum(struct point p1, struct point p2){
+    struct point sum = {
+        p1.x + p2.x,
+        p1.y + p2.y
+    };
+    return sum;
+}
+```
+
+### 结构体的指针
+
+```c
+//定义结构体指针
+struct point *p = &sumPoint;
+//结构体指针取值
+int x = (*p).x; //这里必须要加括号因为 .的优先级高于 ()
+printf("(*p).x: %d\n",  x);
+
+//C语言中提供一种简写
+x = p -> x;
+int y = p -> y;
+printf("p -> x: %d \t p -> y: %d", x, y);
+```
+
