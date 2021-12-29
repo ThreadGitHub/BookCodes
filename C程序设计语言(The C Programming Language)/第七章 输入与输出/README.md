@@ -75,3 +75,37 @@ int main(){
 ```
 
 ![image-20211229222037878](README.assets/image-20211229222037878.png)
+
+## 7.5 文件访问
+
+实现 Cat命令的效果
+
+```C
+#include <stdio.h>
+
+int main(int argc, char *argv[]){
+    char *fileName = argv[1];
+    FILE *file = fopen(fileName, "r");
+
+    if(file == NULL){
+        printf("文件不存在!");
+        return 0;
+    }
+
+    char c;
+    while((c = fgetc(file)) != EOF){
+        printf("%c", c);
+    }
+    return 0;
+}
+```
+
+`FILE* fopen(fileName, "r");` 打开文件
+
+`int fgetc(file)` 读取文件内容
+
+ ` int putc(int c, FILE *fp)` 写入文件内容
+
+`int fscanf(FILE *fp, char *format, ...)`  格式化文件输入
+
+`int fprintf(FILE *fp, char *format, ...)` 格式化文件输出
