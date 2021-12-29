@@ -162,3 +162,27 @@ int main(){
 }
 ```
 
+## 6.8 联合
+
+> C语言提供一种类似于结构的数据结构，可以把很多种数据类型整合到一起，只能任取其一，修改了任何一个联合元素都会影响到其他的元素，所有的元素共用一块内存地址。  结构的话每个元素都是独立的
+
+```C
+union t_tag{
+    int num;
+    char *str;
+    short age;
+};
+
+int main(){
+    union t_tag u;
+    u.num = 100;
+    u.str = "Hello World !";
+    u.age = 77;
+    printf("u.num: %d\t", u.num);
+    printf("u.str: %s\t", u.str);
+    printf("u.age: %d\t", u.age);
+    return 0;
+}
+```
+
+t_tag 联合体最后赋值的元素能够正确的赋值使用，其他的会被影响，无法获取最初获取的值，因为他们共用一块内存，内存的大小是联合体中最大的那个元素的大小。
