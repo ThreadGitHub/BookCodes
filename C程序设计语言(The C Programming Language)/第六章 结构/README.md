@@ -143,3 +143,22 @@ void printTree(struct tnode *tree){
 }
 ```
 
+## 6.7 类型定义(typedef)
+
+> C语言允许通过 typedef 关键字，给数据类型定义别名
+
+```c
+int main(){
+    typedef int Length;
+    Length num = 10;
+    printf("%d\n", num);
+
+    //定义 String 类型
+    typedef char* String;
+    String str = "Hello World !";
+    printf("%s", str);
+
+    return 0;
+}
+```
+
